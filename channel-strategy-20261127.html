@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B1522">
+<meta name="description" content="美豆科技渠道推广部三阶段战略规划与盈利路径汇报：从服务招商到独立接单盈利。">
+<title>美豆科技渠道推广部｜战略升级与盈利路径汇报</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0B1522;
+  --bg-elev:#122236;
+  --panel:rgba(19,35,54,.82);
+  --panel-solid:#132336;
+  --line:rgba(162,196,224,.24);
+  --line-strong:rgba(168,204,232,.42);
+  --ink:#F6FAFD;
+  --muted:#C2D4E4;
+  --dim:#93ACC2;
+  --gold:#E6C073;
+  --gold-bright:#F5D99A;
+  --gold-soft:rgba(230,192,115,.13);
+  --gold-line:rgba(230,192,115,.44);
+  --teal:#5ADFCC;
+  --teal-soft:rgba(90,223,204,.12);
+  --teal-line:rgba(90,223,204,.4);
+  --amber:#F3A068;
+  --amber-soft:rgba(243,160,104,.13);
+  --amber-line:rgba(243,160,104,.42);
+  --font-sans:"PingFang SC","Microsoft YaHei","Segoe UI","Noto Sans CJK SC",system-ui,-apple-system,sans-serif;
+  --font-serif:"Songti SC","STSong","SimSun",Georgia,serif;
+  --font-mono:ui-monospace,"SF Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{position:relative}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 68% 55% at 88% 12%,rgba(230,192,115,.11),transparent 62%),
+    radial-gradient(ellipse 55% 48% at 10% 88%,rgba(90,223,204,.09),transparent 60%),
+    linear-gradient(180deg,#0A1320 0%,#0D1A2B 55%,#09121E 100%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(166,204,230,.032) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(166,204,230,.032) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+
+button,select{font:inherit;color:var(--ink);cursor:pointer}
+button{
+  background:rgba(24,44,67,.8);border:1px solid var(--line);border-radius:8px;
+  min-height:36px;padding:6px 14px;font-size:13px;line-height:1.2;
+  transition:background .18s,border-color .18s,color .18s,transform .12s;
+}
+button:hover:not(:disabled){background:rgba(37,65,96,.92);border-color:var(--line-strong)}
+button:active:not(:disabled){transform:translateY(1px)}
+button:disabled{opacity:.35;cursor:default}
+button:focus-visible,select:focus-visible,a:focus-visible{
+  outline:2px solid var(--gold);outline-offset:3px;
+}
+button.primary{background:linear-gradient(135deg,#E8C479,#CFA04E);color:#0E1824;border-color:#E8C479;font-weight:700}
+button.primary:hover:not(:disabled){background:linear-gradient(135deg,#F3D493,#DCAD5B);border-color:#F3D493}
+button.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+button.ghost:hover:not(:disabled){background:rgba(255,255,255,.06);color:var(--ink);border-color:var(--line)}
+button.active-toggle{background:var(--gold-soft);border-color:var(--gold-line);color:var(--gold-bright)}
+
+.shell{
+  position:relative;z-index:1;width:100%;height:100vh;height:100dvh;max-width:1680px;margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:62px minmax(0,1fr) 62px;
+  padding:0 clamp(18px,3.2vw,44px);overflow:hidden;
+}
+.topbar,.stage,.footbar,.slide,.hero-grid>*,.grid-2>*,.grid-3>*,.grid-4>*,.pipeline>*,.matrix-layout>*,.timeline>*,.risk-grid>*,.shift-banner>*{min-width:0}
+
+/* Header */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  border-bottom:1px solid var(--line);width:100%;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  border:1px solid var(--gold-line);background:linear-gradient(145deg,rgba(230,192,115,.22),rgba(19,35,54,.9));
+  display:grid;place-items:center;font-weight:800;font-size:15px;color:var(--gold-bright);letter-spacing:-1px;
+}
+.brand-text{min-width:0}
+.brand-text strong{display:block;font-size:15px;font-weight:700;letter-spacing:.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-text small{display:block;font-size:12px;color:var(--dim);letter-spacing:.6px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-tools{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.badge-date{
+  font-size:12px;color:var(--muted);padding:4px 10px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(255,255,255,.03);letter-spacing:.5px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Stage & Slides */
+.stage{position:relative;min-height:0;overflow:hidden;width:100%}
+.slide{
+  display:none;width:100%;height:100%;overflow-y:auto;overflow-x:hidden;
+  flex-direction:column;justify-content:center;gap:clamp(14px,2.2vh,24px);
+  padding:clamp(16px,2.6vh,28px) 2px;
+  scrollbar-width:thin;scrollbar-color:rgba(148,180,206,.28) transparent;
+}
+.slide.active{display:flex}
+body.ready .slide.active{animation:slideIn .26s ease-out}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Typography */
+h1,h2,h3,h4,p,ul{margin:0}
+.slide-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.slide-head-left{display:grid;gap:8px;min-width:0}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;
+}
+.eyebrow::before{content:"";width:24px;height:2px;background:var(--gold);border-radius:2px}
+.eyebrow.teal{color:var(--teal)}
+.eyebrow.teal::before{background:var(--teal)}
+h1{font-size:clamp(34px,4.3vw,64px);line-height:1.14;letter-spacing:-1.2px;font-weight:800}
+h2{font-size:clamp(24px,2.7vw,40px);line-height:1.22;letter-spacing:-.5px;font-weight:700}
+h3{font-size:clamp(17px,1.45vw,22px);line-height:1.35;font-weight:700}
+p{font-size:clamp(14px,1.15vw,17px);line-height:1.62;color:var(--muted)}
+.gold{color:var(--gold-bright)}
+.teal{color:var(--teal)}
+.amber{color:var(--amber)}
+
+/* Status Pills */
+.pill{
+  display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:.4px;white-space:nowrap;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);
+}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.pill.done{color:var(--teal);border-color:var(--teal-line);background:var(--teal-soft)}
+.pill.doing{color:var(--gold-bright);border-color:var(--gold-line);background:var(--gold-soft)}
+.pill.plan{color:var(--amber);border-color:var(--amber-line);background:var(--amber-soft)}
+
+/* Cards & Grids */
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(16px,2vh,22px);display:flex;flex-direction:column;gap:10px;
+  position:relative;backdrop-filter:blur(6px);
+}
+.card.gold-accent{
+  background:linear-gradient(145deg,rgba(230,192,115,.13),rgba(19,35,54,.86) 55%);
+  border-color:var(--gold-line);
+}
+.card.teal-accent{
+  background:linear-gradient(145deg,rgba(90,223,204,.11),rgba(19,35,54,.86) 55%);
+  border-color:var(--teal-line);
+}
+.card.amber-accent{
+  background:linear-gradient(145deg,rgba(243,160,104,.11),rgba(19,35,54,.86) 55%);
+  border-color:var(--amber-line);
+}
+.card-kicker{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  font-size:12px;font-weight:700;letter-spacing:1.2px;color:var(--dim);
+}
+.card-kicker .num{font-family:var(--font-mono);color:var(--gold)}
+.card-kicker .num.teal{color:var(--teal)}
+
+.list{list-style:none;padding:0;display:grid;gap:8px}
+.list li{
+  position:relative;padding-left:16px;font-size:clamp(13.5px,1.08vw,16px);line-height:1.55;color:var(--muted);
+}
+.list li::before{
+  content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--teal);
+}
+.list.gold-dot li::before{background:var(--gold)}
+.list.amber-dot li::before{background:var(--amber)}
+.list li strong{color:var(--ink);font-weight:600}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  padding:5px 11px;border-radius:7px;font-size:13px;color:var(--ink);
+  background:rgba(11,21,34,.75);border:1px solid var(--line);
+}
+.chip.gold{border-color:var(--gold-line);color:var(--gold-bright);background:var(--gold-soft)}
+.chip.teal{border-color:var(--teal-line);color:var(--teal);background:var(--teal-soft)}
+
+.bottom-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding:13px 18px;border-radius:11px;
+  background:rgba(16,32,50,.85);border:1px solid var(--line);border-left:3px solid var(--gold);
+}
+.bottom-bar.teal{border-left-color:var(--teal)}
+.bottom-bar strong{color:var(--ink);font-size:15px}
+.bottom-bar span{color:var(--muted);font-size:14px;line-height:1.5}
+
+.footnote{
+  font-size:13px;line-height:1.5;color:var(--dim);
+  padding-left:12px;border-left:2px solid var(--line-strong);
+}
+
+/* Slide 1: Cover */
+.hero-grid{display:grid;grid-template-columns:1.15fr .95fr;gap:clamp(24px,4vw,56px);align-items:center}
+.hero-copy{display:grid;gap:18px}
+.hero-sub{font-size:clamp(16px,1.45vw,21px);line-height:1.65;color:var(--muted);max-width:620px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;
+  background:rgba(19,35,54,.85);border:1px solid var(--line);font-size:14px;color:var(--ink);
+}
+.hero-tag i{font-style:normal;font-family:var(--font-mono);font-size:12px;color:var(--gold);font-weight:700}
+.hero-visual{
+  background:linear-gradient(155deg,rgba(22,42,66,.88),rgba(12,24,39,.92));
+  border:1px solid var(--line-strong);border-radius:18px;padding:22px;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+}
+.hero-visual svg{width:100%;height:auto;display:block}
+.hero-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);
+}
+.hero-meta strong{color:var(--gold-bright);font-weight:600}
+
+/* Slide 2: Overview Stage Cards */
+.stage-card{justify-content:space-between;min-height:0}
+.stage-card .role-box{
+  padding:10px 12px;border-radius:9px;background:rgba(10,19,32,.66);border:1px solid var(--line);
+  font-size:13.5px;color:var(--ink);line-height:1.5;
+}
+.stage-card .role-box span{display:block;font-size:11.5px;color:var(--dim);letter-spacing:.8px;margin-bottom:2px}
+.stage-card.gold-accent .role-box{border-color:var(--gold-line)}
+
+/* Slide 3: Phase 1 Split */
+.func-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.func-tile{
+  padding:10px 8px;border-radius:9px;text-align:center;
+  background:rgba(10,20,33,.72);border:1px solid var(--line);
+}
+.func-tile strong{display:block;font-size:14px;color:var(--ink)}
+.func-tile small{display:block;font-size:11.5px;color:var(--dim);margin-top:3px}
+.crm-feature{
+  padding:14px 16px;border-radius:11px;background:rgba(10,20,33,.72);
+  border:1px solid var(--teal-line);display:grid;gap:6px;
+}
+.crm-feature-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.crm-feature-head strong{font-size:16px;color:var(--teal)}
+.crm-feature-head span{font-size:12px;color:var(--gold-bright);background:var(--gold-soft);padding:2px 8px;border-radius:4px}
+
+/* Slide 4: Phase 2 Product Engine */
+.pipeline{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:16px;align-items:stretch}
+.tier-item{
+  padding:10px 12px;border-radius:9px;background:rgba(10,20,33,.72);border:1px solid var(--line);
+  display:grid;gap:4px;
+}
+.tier-item-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.tier-item-head strong{font-size:14.5px;color:var(--ink)}
+.tier-badge{font-size:11.5px;padding:2px 7px;border-radius:4px;font-weight:600}
+.tier-badge.t1{background:var(--teal-soft);color:var(--teal)}
+.tier-badge.t2{background:var(--gold-soft);color:var(--gold-bright)}
+.tier-badge.t3{background:var(--amber-soft);color:var(--amber)}
+.tier-item p{font-size:13px;line-height:1.45}
+
+.grade-box{
+  padding:11px 13px;border-radius:10px;background:rgba(10,20,33,.75);
+  border:1px solid var(--line);border-left:3px solid var(--teal);display:grid;gap:4px;
+}
+.grade-box.hot{border-left-color:var(--amber);background:linear-gradient(90deg,rgba(243,160,104,.1),rgba(10,20,33,.78))}
+.grade-box.main{border-left-color:var(--gold);background:linear-gradient(90deg,rgba(230,192,115,.1),rgba(10,20,33,.78))}
+.grade-box strong{font-size:15px;color:var(--ink)}
+.grade-box p{font-size:13px;line-height:1.48}
+
+/* Slide 5: Phase 2 Matrix & IP */
+.matrix-layout{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:stretch}
+.wechat-row{
+  display:grid;grid-template-columns:112px minmax(0,1fr);gap:14px;align-items:center;
+  padding:12px 14px;border-radius:10px;background:rgba(10,20,33,.74);border:1px solid var(--line);
+}
+.wechat-role{
+  padding:7px 8px;border-radius:7px;text-align:center;font-size:13px;font-weight:700;
+  border:1px solid var(--teal-line);color:var(--teal);background:var(--teal-soft);
+}
+.wechat-role.ip{border-color:var(--gold-line);color:var(--gold-bright);background:var(--gold-soft)}
+.wechat-role.vip{border-color:var(--amber-line);color:var(--amber);background:var(--amber-soft)}
+.wechat-row p{font-size:13.5px;line-height:1.5}
+.wechat-row strong{color:var(--ink)}
+
+/* Slide 6: Phase 3 Profit Model */
+.shift-banner{
+  display:grid;grid-template-columns:1fr auto 1.2fr;gap:16px;align-items:center;
+  padding:16px 20px;border-radius:14px;
+  background:linear-gradient(125deg,rgba(21,39,60,.92),rgba(230,192,115,.13));
+  border:1px solid var(--gold-line);
+}
+.shift-side{display:grid;gap:5px}
+.shift-side small{font-size:12px;letter-spacing:1px;color:var(--dim);font-weight:600}
+.shift-side strong{font-size:clamp(16px,1.5vw,21px);color:var(--ink)}
+.shift-side.target small{color:var(--gold)}
+.shift-side.target strong{color:var(--gold-bright)}
+.shift-arrow{
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold-bright);font-size:20px;font-weight:700;
+}
+.profit-formula{
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+  padding:12px 18px;border-radius:11px;background:rgba(10,20,33,.8);border:1px solid var(--gold-line);
+  font-size:15px;
+}
+.profit-formula .term{padding:5px 12px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--ink);font-weight:600}
+.profit-formula .term.result{background:var(--gold-soft);border:1px solid var(--gold-line);color:var(--gold-bright)}
+.profit-formula .op{color:var(--gold);font-weight:700;font-size:17px}
+
+/* Slide 7: Bottlenecks */
+.risk-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.risk-card{grid-column:span 2;gap:8px}
+.risk-card.wide{grid-column:span 3}
+.risk-problem{font-size:13.5px;color:var(--muted);line-height:1.5}
+.risk-solve{
+  margin-top:auto;padding:9px 11px;border-radius:8px;
+  background:rgba(90,223,204,.07);border:1px solid rgba(90,223,204,.24);
+  font-size:13px;line-height:1.5;color:#D6EFEA;
+}
+.risk-solve strong{color:var(--teal)}
+
+/* Slide 8: Timeline */
+.timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;position:relative}
+.mile{
+  border-top:3px solid var(--teal);border-radius:0 0 13px 13px;
+  background:var(--panel);border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:16px;display:flex;flex-direction:column;gap:10px;
+}
+.mile.m2,.mile.m3{border-top-color:var(--gold)}
+.mile.m4{border-top-color:var(--amber);background:linear-gradient(160deg,rgba(230,192,115,.11),rgba(19,35,54,.86) 55%)}
+.mile-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.mile-code{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--teal)}
+.mile.m2 .mile-code,.mile.m3 .mile-code{color:var(--gold-bright)}
+.mile.m4 .mile-code{color:var(--amber)}
+.mile-dur{font-size:12px;color:var(--gold-bright);background:rgba(255,255,255,.05);padding:3px 8px;border-radius:5px;white-space:nowrap}
+.mile-window{font-size:12px;color:var(--dim);font-family:var(--font-mono)}
+.mile-gate{
+  margin-top:auto;padding-top:9px;border-top:1px dashed var(--line-strong);
+  font-size:12.5px;line-height:1.48;color:var(--ink);
+}
+.mile-gate span{color:var(--gold);font-weight:600}
+
+/* Slide 9: Closing */
+.quote-banner{
+  border-left:4px solid var(--gold);padding:8px 0 8px 24px;
+  display:grid;gap:10px;
+}
+.quote-banner .serif-quote{
+  font-family:var(--font-serif);font-size:clamp(26px,3.2vw,46px);line-height:1.42;font-weight:600;color:var(--ink);
+}
+.cta-link{
+  display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:8px;
+  border:1px solid var(--teal-line);background:var(--teal-soft);color:var(--teal);
+  text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap;
+  transition:background .18s,color .18s;
+}
+.cta-link:hover{background:rgba(90,223,204,.24);color:#fff}
+
+/* Footer Nav */
+.footbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  border-top:1px solid var(--line);position:relative;
+}
+.progress{
+  position:absolute;top:-2px;left:0;height:3px;width:11.11%;
+  background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;transition:width .25s ease;
+}
+.foot-left{display:flex;align-items:center;gap:14px;min-width:0}
+.select-wrap{position:relative}
+.select-wrap::after{content:"▾";position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--muted);font-size:12px}
+select{
+  appearance:none;background:rgba(24,44,67,.85);border:1px solid var(--line);border-radius:8px;
+  min-height:36px;padding:6px 30px 6px 12px;font-size:13px;max-width:240px;
+}
+.hint{font-size:12px;color:var(--dim);white-space:nowrap}
+.nav-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.counter{min-width:54px;text-align:center;font-size:13px;color:var(--muted);font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+/* Edit Mode */
+
+
+/* Modal & Toast */
+dialog{
+  border:1px solid var(--line-strong);border-radius:16px;padding:24px;
+  width:min(680px,92vw);max-height:85dvh;background:#102033;color:var(--ink);
+  box-shadow:0 24px 60px rgba(0,0,0,.55);
+}
+dialog::backdrop{background:rgba(5,10,18,.72);backdrop-filter:blur(3px)}
+.dlg-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.dlg-head h3{font-size:18px}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toc-btn{
+  display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;
+  background:rgba(19,35,54,.7);border:1px solid var(--line);border-radius:9px;
+}
+.toc-btn.current{border-color:var(--gold-line);background:var(--gold-soft)}
+.toc-btn span{font-family:var(--font-mono);font-size:12px;color:var(--gold);flex-shrink:0}
+.toc-btn b{font-size:13.5px;font-weight:600;color:var(--ink)}
+.dlg-actions{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.dlg-help{font-size:12.5px;line-height:1.65;color:var(--muted)}
+
+.toast{
+  position:fixed;bottom:76px;left:50%;transform:translateX(-50%);z-index:20;
+  background:#1A304A;border:1px solid var(--gold-line);color:var(--ink);
+  padding:10px 18px;border-radius:10px;font-size:13.5px;max-width:90vw;
+  box-shadow:0 12px 32px rgba(0,0,0,.45);display:none;
+}
+.toast.show{display:block;animation:slideIn .2s ease-out}
+
+/* Compact Laptop Heights (e.g. 1280x720, 1366x768) */
+@media (min-width:861px) and (max-height:760px){
+  .shell{grid-template-rows:52px minmax(0,1fr) 52px}
+  .slide{padding:12px 2px;gap:12px}
+  h1{font-size:clamp(30px,3.8vw,48px)}
+  h2{font-size:clamp(22px,2.3vw,32px)}
+  h3{font-size:17px}
+  p,.list li{font-size:13.5px;line-height:1.48}
+  .card{padding:14px;gap:8px}
+  .bottom-bar{padding:10px 14px}
+  .shift-banner{padding:12px 16px}
+  .mile{padding:13px;gap:7px}
+  .quote-banner .serif-quote{font-size:clamp(24px,2.7vw,36px)}
+  .hero-visual{padding:16px}
+}
+
+/* Tablet & Mobile */
+@media (max-width:860px){
+  .shell{grid-template-rows:auto minmax(0,1fr) 56px;padding:0 14px}
+  .topbar{padding:10px 0 8px;flex-direction:column;align-items:stretch;gap:8px}
+  .brand{justify-content:flex-start}
+  .top-tools{justify-content:flex-end;flex-wrap:wrap;gap:6px;width:100%}
+  .badge-date{display:none}
+  .top-tools button{padding:5px 10px;font-size:12px;min-height:32px}
+  #btn-full{display:none}
+  .slide{justify-content:flex-start;padding:14px 0 20px;gap:12px}
+  h1{font-size:clamp(28px,7.6vw,38px);letter-spacing:-.6px}
+  h2{font-size:clamp(21px,5.6vw,28px);letter-spacing:-.3px}
+  .hero-sub{font-size:14.5px;line-height:1.58}
+  .hero-tag{font-size:12.5px;padding:6px 10px}
+  .hero-visual{padding:12px}
+  .hero-grid,.grid-2,.grid-3,.grid-4,.pipeline,.matrix-layout,.timeline,.shift-banner,.toc-grid{
+    grid-template-columns:1fr;
+  }
+  .shift-banner{padding:14px;gap:10px}
+  .shift-arrow{transform:rotate(90deg);margin:0 auto;width:32px;height:32px;font-size:15px}
+  .profit-formula{justify-content:flex-start;gap:6px;padding:10px 12px;font-size:13px}
+  .profit-formula .term{padding:4px 8px}
+  .risk-grid{grid-template-columns:1fr}
+  .risk-card,.risk-card.wide{grid-column:span 1}
+  .func-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wechat-row{grid-template-columns:1fr;gap:8px}
+  .wechat-role{width:fit-content;padding:4px 10px}
+  .hint{display:none}
+  .footbar{gap:6px}
+  .foot-left{flex:1;min-width:0}
+  .select-wrap{width:fit-content;max-width:100%}
+  select{width:100%;max-width:152px;font-size:12px;padding:5px 24px 5px 8px;min-height:34px}
+  .nav-controls{gap:5px}
+  .nav-controls button{padding:5px 9px;font-size:12px;min-height:34px}
+  .counter{min-width:36px;font-size:12px}
+}
+
+/* Print / Export PDF */
+@media print{
+  body{background:#fff;color:#111D2C;height:auto;overflow:visible}
+  body::before,body::after,.topbar,.footbar,.toast,dialog{display:none!important}
+  .shell{display:block;height:auto;max-width:none;padding:0}
+  .stage{overflow:visible}
+  .slide,.slide.active{
+    display:flex!important;height:auto;min-height:185mm;overflow:visible;
+    break-after:page;page-break-after:always;padding:12mm;animation:none;
+  }
+  .card,.hero-visual,.bottom-bar,.shift-banner,.mile,.func-tile,.crm-feature,.tier-item,.grade-box,.wechat-row,.profit-formula,.risk-solve{
+    background:#F4F7FA!important;color:#111D2C!important;border-color:#CBD6E2!important;box-shadow:none!important;
+  }
+  p,.list li,.footnote,.bottom-bar span,.mile-window,.risk-problem,.hero-sub{color:#36495E!important}
+  h1,h2,h3,strong,.serif-quote,.chip,.profit-formula .term{color:#0E1B2B!important}
+  .gold,.eyebrow,.mile-code,.card-kicker .num{color:#9A6B19!important}
+  .teal,.crm-feature-head strong,.risk-solve strong{color:#0C7B70!important}
+  .pill{border-color:#9EB1C4!important;color:#1F354C!important;background:#EBF2F7!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <div class="brand-text">
+        <strong>美豆科技 · 渠道推广部</strong>
+        <small>战略升级与盈利路径项目汇总</small>
+      </div>
+    </div>
+    <div class="top-tools">
+      <span class="badge-date">2026.11.27</span>
+      <button id="btn-toc" type="button">目录</button>
+      <button id="btn-full" type="button">全屏</button>
+    </div>
+  </header>
+
+  <main class="stage" aria-label="渠道推广部战略与盈利路径汇报">
+
+    <!-- Slide 1: Cover -->
+    <section class="slide active" data-slug="cover" data-title="汇报封面">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">MEIDOU CHANNEL STRATEGY · 2026—2027</div>
+          <h1>从服务招商，<br>走向<span class="gold">独立盈利</span></h1>
+          <p class="hero-sub">渠道推广部三阶段业务演进、系统开发思路、核心卡点与落地周期汇总——先稳住内部数字化底座，再沉淀全网商品池与自有线报 IP，最终实现从“放单方”向“接单方”的盈利跃迁。</p>
+          <div class="hero-tags">
+            <span class="hero-tag"><i>01</i> 系统并入 CRM 日常化</span>
+            <span class="hero-tag"><i>02</i> 全网商品库 + 线报 IP</span>
+            <span class="hero-tag"><i>03</i> 外部接单创收闭环</span>
+          </div>
+        </div>
+        <div class="hero-visual" role="img" aria-label="三阶段战略跃迁示意图">
+          <svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gLine" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#5ADFCC"/>
+                <stop offset="52%" stop-color="#E6C073"/>
+                <stop offset="100%" stop-color="#F5D99A"/>
+              </linearGradient>
+              <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E6C073" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#5ADFCC" stop-opacity="0.01"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="26" y1="296" x2="494" y2="296" stroke="#365470" stroke-width="1"/>
+            <line x1="26" y1="220" x2="494" y2="220" stroke="#243B52" stroke-dasharray="4 5" stroke-width="1"/>
+            <line x1="26" y1="144" x2="494" y2="144" stroke="#243B52" stroke-dasharray="4 5" stroke-width="1"/>
+            <line x1="26" y1="68" x2="494" y2="68" stroke="#243B52" stroke-dasharray="4 5" stroke-width="1"/>
+
+            <!-- Growth area & trajectory curve passing cleanly along top edges -->
+            <path d="M 38 228 C 68 225, 82 214, 102 210 C 165 198, 196 142, 260 130 C 324 118, 358 58, 421 44 C 452 37, 474 34, 492 31 L 492 296 L 38 296 Z" fill="url(#gArea)"/>
+            <path d="M 38 228 C 68 225, 82 214, 102 210 C 165 198, 196 142, 260 130 C 324 118, 358 58, 421 44 C 452 37, 474 34, 492 31" fill="none" stroke="url(#gLine)" stroke-width="3.2" stroke-linecap="round"/>
+
+            <!-- Stage 1 -->
+            <rect x="30" y="216" width="144" height="72" rx="10" fill="#13273D" stroke="#5ADFCC" stroke-opacity="0.72" stroke-width="1.2"/>
+            <text x="44" y="239" fill="#5ADFCC" font-size="11" font-weight="700">STAGE 01 · 基本完成</text>
+            <text x="44" y="259" fill="#F6FAFD" font-size="14" font-weight="700">内部系统入网</text>
+            <text x="44" y="276" fill="#ADC2D4" font-size="11">服务招商 · 作业在线化</text>
+            <circle cx="102" cy="210" r="5.5" fill="#5ADFCC" stroke="#0B1522" stroke-width="2"/>
+
+            <!-- Stage 2 -->
+            <rect x="188" y="136" width="144" height="72" rx="10" fill="#172C42" stroke="#E6C073" stroke-opacity="0.78" stroke-width="1.2"/>
+            <text x="202" y="159" fill="#E6C073" font-size="11" font-weight="700">STAGE 02 · 推进中</text>
+            <text x="202" y="179" fill="#F6FAFD" font-size="14" font-weight="700">商品库 + 线报 IP</text>
+            <text x="202" y="196" fill="#ADC2D4" font-size="11">全网采集 · 分级 · 建群</text>
+            <circle cx="260" cy="130" r="5.5" fill="#E6C073" stroke="#0B1522" stroke-width="2"/>
+
+            <!-- Stage 3 -->
+            <rect x="346" y="50" width="148" height="74" rx="10" fill="#232D3A" stroke="#F5D99A" stroke-width="1.5"/>
+            <text x="360" y="73" fill="#F5D99A" font-size="11" font-weight="700">STAGE 03 · 盈利目标</text>
+            <text x="360" y="94" fill="#FFFFFF" font-size="14.5" font-weight="800">对外接单创收</text>
+            <text x="360" y="111" fill="#E6C073" font-size="11">一手货源 × 头部渠道</text>
+            <circle cx="421" cy="44" r="6" fill="#F5D99A" stroke="#0B1522" stroke-width="2"/>
+            <circle cx="421" cy="44" r="12" fill="#F5D99A" fill-opacity="0.24"/>
+
+            <!-- Bottom caption -->
+            <text x="44" y="320" fill="#8FA8BF" font-size="12">成本支持角色</text>
+            <text x="198" y="320" fill="#C2D4E4" font-size="12">数据与流量资产沉淀</text>
+            <text x="372" y="320" fill="#F5D99A" font-size="12" font-weight="700">独立盈利单元 ↗</text>
+          </svg>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <span>汇报部门：<strong>美豆科技 · 渠道推广部</strong></span>
+        <span>汇报主题：战略布局 · 开发思路 · 卡点应对 · 落地周期</span>
+      </div>
+    </section>
+
+    <!-- Slide 2: Strategic Overview -->
+    <section class="slide" data-slug="overview" data-title="三阶段战略总览">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow">01 / 战略总览</div>
+          <h2>三步走：先建底座，再攒资产，最终实现盈利</h2>
+        </div>
+        <span class="pill doing">三阶段承上启下 · 稳步推进</span>
+      </div>
+
+      <div class="grid-3">
+        <article class="card teal-accent stage-card">
+          <div class="card-kicker"><span class="num teal">STAGE 01</span><span class="pill done">基本完成 · 随用随优</span></div>
+          <h3>第一阶段｜内部基建与日常化</h3>
+          <div class="role-box"><span>部门定位</span>服务招商部 + 推广小组全流程线上化</div>
+          <ul class="list">
+            <li>渠道客户管理系统<strong>已并入招商主系统 CRM</strong>。</li>
+            <li>组员审单、放单、登记、售后、记账全面进入线上。</li>
+            <li>招商业务员后台直看<strong>红包支出</strong>与<strong>放单结果反馈</strong>。</li>
+          </ul>
+        </article>
+
+        <article class="card gold-accent stage-card">
+          <div class="card-kicker"><span class="num">STAGE 02</span><span class="pill doing">正在推进 · 核心攻坚</span></div>
+          <h3>第二阶段｜商品资产与线报 IP</h3>
+          <div class="role-box"><span>部门定位</span>沉淀全网爆款池、客户画像与自有采集群矩阵</div>
+          <ul class="list gold-dot">
+            <li>独立商品数据库已部署，推进多平台采集与去重入库。</li>
+            <li>商品做<strong>一般单 / 漏洞单 / 主推单</strong>分级并自动对标招商。</li>
+            <li>组员多微信号混圈子、建自有采集群，孵化线报 IP。</li>
+          </ul>
+        </article>
+
+        <article class="card amber-accent stage-card">
+          <div class="card-kicker"><span class="num amber">STAGE 03</span><span class="pill plan">规划目标 · 盈利转型</span></div>
+          <h3>第三阶段｜对外接单实现盈利</h3>
+          <div class="role-box"><span>部门定位</span>从「内部放单方」升级为「全网接单盈利方」</div>
+          <ul class="list amber-dot">
+            <li>一手商家货源 + 一手漏洞/主推单持续供给。</li>
+            <li>深度绑定一批头部核心渠道 + 自有活跃线报 IP 群。</li>
+            <li>承接全网外部商单，通过服务费、分佣与测品实现盈利。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="bottom-bar">
+        <strong>核心逻辑</strong>
+        <span>一阶段打好对账与履约地基，二阶段攒足“好货源 + 强渠道 + 自有 IP”筹码，三阶段顺理成章切入全网接单创收，不盲目跳步。</span>
+      </div>
+    </section>
+
+    <!-- Slide 3: Phase 1 Review -->
+    <section class="slide" data-slug="phase1" data-title="第一阶段成果与收口">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow teal">02 / 第一阶段盘点</div>
+          <h2>系统已并入主 CRM，服务内部与招商双线成型</h2>
+        </div>
+        <span class="pill done">主体已落地 · 尾项收口中</span>
+      </div>
+
+      <div class="grid-2">
+        <article class="card teal-accent">
+          <div class="card-kicker"><span class="num teal">作用一 · 推广组员端</span><span>8 大日常作业全面线上化</span></div>
+          <h3>替代分散表格，业务动作全留痕</h3>
+          <div class="func-grid">
+            <div class="func-tile"><strong>审单辅助</strong><small>初筛与沉淀</small></div>
+            <div class="func-tile"><strong>放单分发</strong><small>流转清晰</small></div>
+            <div class="func-tile"><strong>商品登记</strong><small>货源可区分</small></div>
+            <div class="func-tile"><strong>业绩汇总</strong><small>归属推进中</small></div>
+            <div class="func-tile"><strong>售后登记</strong><small>共同账本</small></div>
+            <div class="func-tile"><strong>支出记账</strong><small>系统直登</small></div>
+            <div class="func-tile"><strong>客户档案</strong><small>平台与偏好</small></div>
+            <div class="func-tile"><strong>草稿保护</strong><small>防丢防重</small></div>
+          </div>
+          <p>组员日常工作从多张表格和零散聊天收口到统一系统，数据可追溯、工作可复盘。</p>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker"><span class="num">作用二 · 招商业务员端</span><span>并入主系统后台直看</span></div>
+          <h3>打通招商协作最关心的两件事</h3>
+          <div class="crm-feature">
+            <div class="crm-feature-head">
+              <strong>1. 我的红包单支出</strong>
+              <span>已上线 · 后台可查</span>
+            </div>
+            <p>招商业务员在主 CRM 后台按月查看本人商单产生的红包推广成本，归属清晰、方便核对投入产出。</p>
+          </div>
+          <div class="crm-feature">
+            <div class="crm-feature-head">
+              <strong>2. 我的放单结果反馈</strong>
+              <span>已上线 · 自动刷新已恢复</span>
+            </div>
+            <p>招商业务员直接查看自己提报的单子问了哪些渠道、是否愿意接单或拒绝原因，减少反复口头追问。</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="bottom-bar teal">
+        <strong>第一阶段当前收口重点（约 2 周清零）</strong>
+        <span>① 完成“个人合作单业绩”正式数据源接入上线；② 补齐组员编辑权限合并与业务员实测反馈；③ 核清历史账本差额后转入日常轻量维护。</span>
+      </div>
+    </section>
+
+    <!-- Slide 4: Phase 2 System -->
+    <section class="slide" data-slug="phase2-system" data-title="第二阶段：全网商品库与分级">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow">03 / 第二阶段 · 系统侧思路</div>
+          <h2>独立商品库多源采集，分级筛选、双向赋能</h2>
+        </div>
+        <span class="pill doing">独立数据库已部署 · 接入推进中</span>
+      </div>
+
+      <div class="pipeline">
+        <article class="card">
+          <div class="card-kicker"><span class="num teal">STEP 1</span><span>分梯队采集入库</span></div>
+          <h3>全网发单源统一归集</h3>
+          <div class="tier-item">
+            <div class="tier-item-head"><strong>第一梯队 · 标准化平台</strong><span class="tier-badge t1">优先跑通</span></div>
+            <p>大淘客、好单库、淘宝联盟 / 放单宝，商品 ID 与佣金结构清晰，先打稳去重入库。</p>
+          </div>
+          <div class="tier-item">
+            <div class="tier-item-head"><strong>第二梯队 · 微信/QQ 采集群</strong><span class="tier-badge t2">分钟级捕捉</span></div>
+            <p>解析群内实时线报与短链，统一还原为标准商品 ID，识别多群爆发爆款。</p>
+          </div>
+          <div class="tier-item">
+            <div class="tier-item-head"><strong>第三梯队 · 微博 / B 站</strong><span class="tier-badge t3">精选监控</span></div>
+            <p>不做盲目全站爬取，定向监控高价值线报博主 + 人工快审入库，控成本提质量。</p>
+          </div>
+        </article>
+
+        <article class="card gold-accent">
+          <div class="card-kicker"><span class="num">STEP 2</span><span>清洗去重与三级分级</span></div>
+          <h3>把海量单子自动分成三档</h3>
+          <div class="grade-box hot">
+            <strong>漏洞单（强时效 · 分钟级）</strong>
+            <p>大幅低于历史价或短时间多群同时爆发；必须带<strong>推前验价与短效过期</strong>，绝不推死单伤口碑。</p>
+          </div>
+          <div class="grade-box main">
+            <strong>主推单（重转化 · 天级）</strong>
+            <p>价格有全网竞争力、佣金与服务费达标、货稳售后稳，结合团队人工审单经验重点放大。</p>
+          </div>
+          <div class="grade-box">
+            <strong>一般单（日常填充）</strong>
+            <p>低客单日常刚需与常规优惠，适合用于开群、养群、日常合集或小范围红包测品。</p>
+          </div>
+          <p class="footnote">分级具体量化阈值正结合业务实测讨论定稿，系统按“规则初筛 + 人工校准”留足调整空间。</p>
+        </article>
+
+        <article class="card teal-accent">
+          <div class="card-kicker"><span class="num teal">STEP 3</span><span>双向对撞与匹配</span></div>
+          <h3>让商品库直接产生业务价值</h3>
+          <ul class="list">
+            <li><strong>向上反哺招商（商品对撞）</strong>：把全网主推/漏洞爆款自动对标内部供品，提示业务员哪些品在起量、哪些值得去谈。</li>
+            <li><strong>向下精准配客（辅助推单）</strong>：绑定客户推广平台、自动补齐类目与价格带标签，系统先给出“推荐客户 + 推荐文案”，由组员确认执行。</li>
+            <li><strong>架构独立提速</strong>：采集、分级与匹配跑在独立库与独立服务，轻量对接主 CRM，迭代不受主系统发版节奏拖累。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Slide 5: Phase 2 Business & IP Matrix -->
+    <section class="slide" data-slug="phase2-ip" data-title="第二阶段：线报 IP 与渠道矩阵">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow">04 / 第二阶段 · 业务与流量侧</div>
+          <h2>多微信号混圈建群，打造自有采集线报 IP</h2>
+        </div>
+        <span class="pill doing">扩新激活 + 矩阵筹备</span>
+      </div>
+
+      <div class="matrix-layout">
+        <article class="card">
+          <div class="card-kicker"><span class="num">账号分层隔离</span><span>控封号风险 · 提运营效率</span></div>
+          <h3>多微信号矩阵三类分工</h3>
+          <div class="wechat-row">
+            <span class="wechat-role">潜伏采集号</span>
+            <p><strong>只收不发、专混圈子</strong>：主动加同行好友、进外部优质采集群，为商品库提供一手实时线报来源，降低被踢或风控概率。</p>
+          </div>
+          <div class="wechat-row">
+            <span class="wechat-role ip">线报输出号</span>
+            <p><strong>自建采集群、树专业 IP</strong>：依托系统筛选出的漏洞单与主推单稳定日更，以“出单快、不推死单”吸引行业渠道主动进群沉淀。</p>
+          </div>
+          <div class="wechat-row">
+            <span class="wechat-role vip">核心客情号</span>
+            <p><strong>人工精聊、绑定头部</strong>：专做渠道扩新、老客激活与深度关系维护，不跑高频群发，保障核心大客户合作粘性。</p>
+          </div>
+        </article>
+
+        <article class="card gold-accent">
+          <div class="card-kicker"><span class="num">资产沉淀标准</span><span>为第三阶段蓄水</span></div>
+          <h3>把“个人关系”变成“部门阵地”</h3>
+          <ul class="list gold-dot">
+            <li><strong>客户精细分类运营</strong>：围绕<strong>社群主推、红包线报、线下撸货</strong>三类渠道，重过客户列表补齐类目标签与接单门槛。</li>
+            <li><strong>放单互动回流数据</strong>：推品带适配文案、追问拒单原因，把每次沟通经验沉淀进系统画像，越推越准。</li>
+            <li><strong>客户资产不死绑单号</strong>：好友、采集群与合作历史全部同步建档，避免因单一账号异常或人员变动造成资源断层。</li>
+            <li><strong>锚定头部渠道池</strong>：第二阶段重点深耕并深度绑定 <strong>10–20 家核心头部渠道</strong>，形成确定性的起量能力。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="bottom-bar">
+        <strong>二阶段人机配合</strong>
+        <span>系统帮组员省下“到处翻群找品、重复抄文案”的时间，组员把精力集中到“混圈拓新、建群养 IP、维护头部渠道”上。</span>
+      </div>
+    </section>
+
+    <!-- Slide 6: Phase 3 Profit Model -->
+    <section class="slide" data-slug="phase3-profit" data-title="第三阶段：盈利模式与转型">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow">05 / 第三阶段 · 商业化盈利路径</div>
+          <h2>手握货源与头部渠道两端，承接全网商单盈利</h2>
+        </div>
+        <span class="pill plan">角色跃迁 · 目标独立创收</span>
+      </div>
+
+      <div class="shift-banner">
+        <div class="shift-side">
+          <small>第一、二阶段角色</small>
+          <strong>内部“放单服务方”</strong>
+          <p>承接公司招商单子，向外找渠道推广消化，本质偏内部支持与成本中心。</p>
+        </div>
+        <div class="shift-arrow" aria-hidden="true">→</div>
+        <div class="shift-side target">
+          <small>第三阶段升级目标</small>
+          <strong>全网“接单盈利方”</strong>
+          <p>凭一手商家/漏洞/主推货源 + 绑定头部渠道 + 自有线报 IP，承接全网外部商单直接变现。</p>
+        </div>
+      </div>
+
+      <div class="grid-4">
+        <article class="card gold-accent">
+          <div class="card-kicker"><span class="num">创收路径 01</span></div>
+          <h3>全网接单服务费</h3>
+          <p>承接外部商家、品牌代运营及外部团长的主推/爆款单，按实际推广成交收取推广服务费。</p>
+        </article>
+        <article class="card gold-accent">
+          <div class="card-kicker"><span class="num">创收路径 02</span></div>
+          <h3>高佣分销差价</h3>
+          <p>整合自有头部渠道与线报群流量集中放量，拿到更有优势的佣金与合作政策，赚取分销差额。</p>
+        </article>
+        <article class="card gold-accent">
+          <div class="card-kicker"><span class="num">创收路径 03</span></div>
+          <h3>定向排期与代测品</h3>
+          <p>为外部商家提供头部渠道定向坑位或“红包小测验转化”服务，跑出数据后再放大为主推单。</p>
+        </article>
+        <article class="card teal-accent">
+          <div class="card-kicker"><span class="num teal">系统提前预留</span></div>
+          <h3>内外分账 + 结案交付</h3>
+          <p>系统预留“外部委托单”隔离与单单毛利核算；复用放单反馈生成对外结案报告，提升商家复购。</p>
+        </article>
+      </div>
+
+      <div class="profit-formula" aria-label="盈利核算口径">
+        <span class="term">外部应收（服务费 / 佣金差 / 坑位费）</span>
+        <span class="op">−</span>
+        <span class="term">渠道投放成本（红包 / 返点）</span>
+        <span class="op">−</span>
+        <span class="term">售后赔付支出</span>
+        <span class="op">=</span>
+        <span class="term result">部门单项目净毛利</span>
+      </div>
+    </section>
+
+    <!-- Slide 7: Bottlenecks & Solutions -->
+    <section class="slide" data-slug="risks" data-title="核心卡点与应对方案">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow">06 / 风险前置与破局</div>
+          <h2>推进中的五大关键卡点与务实解法</h2>
+        </div>
+        <span class="pill plan">先看清卡点 · 再稳健推进</span>
+      </div>
+
+      <div class="risk-grid">
+        <article class="card risk-card">
+          <div class="card-kicker"><span class="num amber">卡点 01 · 节奏</span><span>高优先级</span></div>
+          <h3>跨系统审核发版周期长</h3>
+          <p class="risk-problem">并入主 CRM 后每次大改都要联审排窗，直接制约商品库高频试错。</p>
+          <div class="risk-solve"><strong>应对：</strong>一阶段尽快收口稳态化；二阶段采集、分级、匹配走<strong>独立库与独立服务</strong>，轻量对接主系统。</div>
+        </article>
+
+        <article class="card risk-card">
+          <div class="card-kicker"><span class="num amber">卡点 02 · 数据源</span><span>高优先级</span></div>
+          <h3>多平台规则杂、有限流风险</h3>
+          <p class="risk-problem">外部平台接口变动、限流以及 B 站/微博内容噪声大，贪多容易烂尾。</p>
+          <div class="risk-solve"><strong>应对：</strong>按<strong>三梯队分批接入</strong>，先打稳大淘客/好单库/放单宝和采集群，内容平台走白名单博主精选监控。</div>
+        </article>
+
+        <article class="card risk-card">
+          <div class="card-kicker"><span class="num amber">卡点 03 · 时效</span><span>高优先级</span></div>
+          <h3>漏洞单失效极快、怕推死单</h3>
+          <p class="risk-problem">好价漏洞可能几十分钟就涨价下架，按天采集抓不到，推过期单会砸 IP 招牌。</p>
+          <div class="risk-solve"><strong>应对：</strong>常规单与漏洞单<strong>双轨刷新</strong>，漏洞单分钟级捕获 + 推前实时验价 + 过期自动下架。</div>
+        </article>
+
+        <article class="card risk-card wide">
+          <div class="card-kicker"><span class="num">卡点 04 · 人力与风控</span><span>团队执行</span></div>
+          <h3>多微信号防封与组员精力分配</h3>
+          <p class="risk-problem">组员既要承接日常招商放单，又要养号、进群、建自有群和维护老客，容易过载或误触微信限流封号。</p>
+          <div class="risk-solve"><strong>应对：</strong>严格隔离采集号/IP 号/客情号职责；前期坚持“系统推荐名单+现成文案，人工确认发送”，先用工具把人力省出来，不贸然上高风险全自动群发。</div>
+        </article>
+
+        <article class="card risk-card wide">
+          <div class="card-kicker"><span class="num">卡点 05 · 机制边界</span><span>三阶段前置</span></div>
+          <h3>内部招商单与外部盈利单的资源平衡</h3>
+          <p class="risk-problem">进入第三阶段接全网外单后，需明确内外单排期优先级、账务隔离方式以及团队创收后的绩效激励口径。</p>
+          <div class="risk-solve"><strong>应对：</strong>二阶段先用爆款对撞反哺招商、证明增量价值；三阶段试跑前向公司明确<strong>内外分账、排期规则与团队提成机制</strong>，实现公司与部门双赢。</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Slide 8: Timeline & Milestones -->
+    <section class="slide" data-slug="roadmap" data-title="落地周期与里程碑">
+      <div class="slide-head">
+        <div class="slide-head-left">
+          <div class="eyebrow">07 / 周期与节奏规划</div>
+          <h2>16—20 周四步落地路线图（2026.11 — 2027.03+）</h2>
+        </div>
+        <span class="pill doing">已预留联审与春节缓冲</span>
+      </div>
+
+      <div class="timeline">
+        <article class="mile m1">
+          <div class="mile-top"><span class="mile-code">M0 · 一阶段收口</span><span class="mile-dur">约 2 周</span></div>
+          <div class="mile-window">2026.11 底 — 12 月中</div>
+          <h3>遗留收口，稳态运行</h3>
+          <ul class="list">
+            <li>补齐个人合作单业绩正式接入上线。</li>
+            <li>完成近期编辑权限合并与业务员实测签收。</li>
+            <li>清零历史账务差异，转入日常轻量迭代。</li>
+          </ul>
+          <div class="mile-gate"><span>过关标准：</span>一阶段全模块日常用顺，不背历史包袱。</div>
+        </article>
+
+        <article class="mile m2">
+          <div class="mile-top"><span class="mile-code">M1 · 二阶段底座</span><span class="mile-dur">约 4 周</span></div>
+          <div class="mile-window">2026.12 中 — 2027.01 上旬</div>
+          <h3>采、分、撞先出实效</h3>
+          <ul class="list gold-dot">
+            <li>稳态打通大淘客/好单库/放单宝及微信采集群入库去重。</li>
+            <li>上线三级分级框架与招商供品自动对撞。</li>
+            <li>多号按分工养号进群，试跑首批自有采集群。</li>
+          </ul>
+          <div class="mile-gate"><span>过关标准：</span>每日自动输出分级单与反哺招商的爆款线索。</div>
+        </article>
+
+        <article class="mile m3">
+          <div class="mile-top"><span class="mile-code">M2 · 二阶段成型</span><span class="mile-dur">6—7 周（含春节）</span></div>
+          <div class="mile-window">2027.01 中 — 02 月底</div>
+          <h3>画像推单 + IP 矩阵</h3>
+          <ul class="list gold-dot">
+            <li>上线客户自动标签与“系统辅助判定放给谁”。</li>
+            <li>按需扩展微博/B 站精选博主监控。</li>
+            <li>深耕绑定 10—20 家头部渠道，自建线报群起量。</li>
+          </ul>
+          <div class="mile-gate"><span>过关标准：</span>人效明显提升，拥有活跃线报 IP 与头部渠道池。</div>
+        </article>
+
+        <article class="mile m4">
+          <div class="mile-top"><span class="mile-code">M3 · 三阶段创收</span><span class="mile-dur">试跑 4—6 周起</span></div>
+          <div class="mile-window">2027.03 起试跑放量</div>
+          <h3>接单试跑，验证盈利</h3>
+          <ul class="list amber-dot">
+            <li>系统上线外部委托单隔离、毛利账本与对外结案页。</li>
+            <li>与公司敲定内外单优先级及创收激励口径。</li>
+            <li>小规模承接全网外单试跑，验证净毛利后放量。</li>
+          </ul>
+          <div class="mile-gate"><span>过关标准：</span>跑通“外部接单→履约结案→回款盈利”闭环。</div>
+        </article>
+      </div>
+
+      <p class="footnote">注：具体节点以实际业务实测、平台对接进度及跨部门协同窗口为准；每个阶段以“真实业务跑通”为前提再切入下一阶段。</p>
+    </section>
+
+    <!-- Slide 9: Summary & Immediate Focus -->
+    <section class="slide" data-slug="closing" data-title="总结与近期抓手">
+      <div class="eyebrow">08 / 总结与近期行动</div>
+
+      <div class="quote-banner">
+        <p class="serif-quote">一阶段稳基本盘，二阶段筑护城河，<br><span class="gold">三阶段把服务能力升级为盈利引擎。</span></p>
+        <p>不为了做系统而做系统——每一阶段的开发和团队动作，都直接指向“更准的商品、更强的渠道、更清晰的利润”。</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card teal-accent">
+          <div class="card-kicker"><span class="num teal">近期抓手 01</span></div>
+          <h3>稳收口 · 彻底用起来</h3>
+          <p>2 周内收尾一阶段遗留节点，让招商业务员和推广组员把已有功能全部跑成日常习惯。</p>
+        </article>
+        <article class="card gold-accent">
+          <div class="card-kicker"><span class="num">近期抓手 02</span></div>
+          <h3>快起盘 · 商品库先见效</h3>
+          <p>敲定分级标准草案，先用核心平台 + 微信采集群跑通“分级入库 + 对撞反哺招商”，快速验证价值。</p>
+        </article>
+        <article class="card amber-accent">
+          <div class="card-kicker"><span class="num amber">近期抓手 03</span></div>
+          <h3>蓄资源 · 提前铺盈利路</h3>
+          <p>同步落地多号分工养号、自建采集群与头部渠道深度绑定，为明年 Q1 末切入外部接单备足弹药。</p>
+        </article>
+      </div>
+
+      <div class="bottom-bar">
+        <div>
+          <strong>美豆科技 · 渠道推广部</strong>
+          <span style="margin-left:10px">以业务结果导向推进系统建设，期待领导指导与协同支持</span>
+        </div>
+        <a class="cta-link" href="https://crm.hfeimd369.com/customer-crm/promotion/app/dashboard" target="_blank" rel="noopener noreferrer">打开渠道客户管理系统 ↗</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footbar">
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <div class="foot-left">
+      <div class="select-wrap">
+        <select id="page-select" aria-label="选择汇报章节"></select>
+      </div>
+      <span class="hint">方向键 / 空格翻页 · 手机左右滑动</span>
+    </div>
+    <div class="nav-controls">
+      <button id="btn-prev" type="button">上一页</button>
+      <span class="counter" id="counter" aria-live="polite">1 / 9</span>
+      <button id="btn-next" class="primary" type="button">下一页</button>
+    </div>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="toc-dialog" aria-labelledby="toc-title">
+  <div class="dlg-head">
+    <h3 id="toc-title">汇报目录</h3>
+    <button id="btn-close-toc" type="button">关闭</button>
+  </div>
+  <div class="toc-grid" id="toc-list"></div>
+  <div class="dlg-actions">
+    <div class="dlg-help">• <strong>演示操作</strong>：使用方向键、空格键、下方按钮或手机左右滑动翻页；点击右上角“全屏”可沉浸展示，按 Ctrl/Cmd + P 可打印或导出 PDF。</div>
+  </div>
+</dialog>
+
+<script id="deck-script">
+(() => {
+  const slides = [...document.querySelectorAll('.slide')];
+  const select = document.getElementById('page-select');
+  const prevBtn = document.getElementById('btn-prev');
+  const nextBtn = document.getElementById('btn-next');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const fullBtn = document.getElementById('btn-full');
+  const tocBtn = document.getElementById('btn-toc');
+  const tocDialog = document.getElementById('toc-dialog');
+  const closeTocBtn = document.getElementById('btn-close-toc');
+  const tocList = document.getElementById('toc-list');
+  const toast = document.getElementById('toast');
+  const stage = document.querySelector('.stage');
+
+  let index = 0;
+  let toastTimer = null;
+
+  function showToast(msg) {
+    clearTimeout(toastTimer);
+    toast.textContent = msg;
+    toast.classList.add('show');
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 4200);
+  }
+
+  function buildNavigation() {
+    select.innerHTML = '';
+    tocList.innerHTML = '';
+    slides.forEach((s, i) => {
+      const title = s.dataset.title || ('第 ' + (i + 1) + ' 页');
+      const num = String(i + 1).padStart(2, '0');
+      select.add(new Option(num + ' · ' + title, String(i)));
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'toc-btn';
+      btn.innerHTML = '<span>' + num + '</span><b></b>';
+      btn.querySelector('b').textContent = title;
+      btn.onclick = () => { show(i); tocDialog.close(); };
+      tocList.appendChild(btn);
+    });
+  }
+
+  function show(n) {
+    index = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, i) => {
+      const active = i === index;
+      s.classList.toggle('active', active);
+      s.setAttribute('aria-hidden', String(!active));
+      if (active) s.scrollTop = 0;
+    });
+    select.value = String(index);
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === slides.length - 1;
+    counter.textContent = (index + 1) + ' / ' + slides.length;
+    progress.style.width = ((index + 1) / slides.length * 100) + '%';
+    [...tocList.children].forEach((b, i) => b.classList.toggle('current', i === index));
+    try { history.replaceState(null, '', '#' + (slides[index].dataset.slug || ('slide-' + (index + 1)))); } catch (_) {}
+  }
+
+  prevBtn.onclick = () => show(index - 1);
+  nextBtn.onclick = () => show(index + 1);
+  select.onchange = () => show(Number(select.value));
+  tocBtn.onclick = () => tocDialog.showModal();
+  closeTocBtn.onclick = () => tocDialog.close();
+  tocDialog.onclick = (e) => { if (e.target === tocDialog) tocDialog.close(); };
+
+  if (fullBtn) {
+    if (!document.documentElement.requestFullscreen) fullBtn.hidden = true;
+    fullBtn.onclick = async () => {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await document.documentElement.requestFullscreen();
+      } catch (_) { showToast('可按 F11 使用浏览器全屏演示。'); }
+    };
+    document.addEventListener('fullscreenchange', () => {
+      fullBtn.textContent = document.fullscreenElement ? '退出全屏' : '全屏';
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (tocDialog.open || /INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(index + 1); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(index - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+  });
+
+  let touchStart = null;
+  stage.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    if (!touchStart) return;
+    const dx = e.changedTouches[0].clientX - touchStart.x;
+    const dy = e.changedTouches[0].clientY - touchStart.y;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) show(index + (dx < 0 ? 1 : -1));
+    touchStart = null;
+  }, { passive: true });
+
+  window.addEventListener('hashchange', () => {
+    const idx = slides.findIndex((s) => '#' + s.dataset.slug === location.hash);
+    if (idx >= 0) show(idx);
+  });
+
+  buildNavigation();
+  const initialIdx = slides.findIndex((s) => '#' + s.dataset.slug === location.hash);
+  show(initialIdx >= 0 ? initialIdx : 0);
+  requestAnimationFrame(() => document.body.classList.add('ready'));
+})();
+</script>
+</body>
+</html>
