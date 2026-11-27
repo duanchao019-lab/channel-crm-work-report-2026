@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0B1220">
+<meta name="description" content="美豆科技渠道客户管理系统近期开发技术复盘思维导图：开发思路诊断、核心技术卡点、推进阻力与后续解决周期。">
+<title>渠道近期开发技术复盘｜思维导图</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0A111E;
+  --surface:#111B2E;
+  --surface-2:#16233A;
+  --panel:rgba(15,24,41,.94);
+  --line:rgba(148,176,210,.22);
+  --line-strong:rgba(148,176,210,.42);
+  --ink:#F3F7FC;
+  --muted:#B5C6DC;
+  --dim:#7F95B2;
+  --c-root:#818CF8;
+  --c-teal:#2DD4BF;
+  --c-amber:#F59E0B;
+  --c-rose:#FB7185;
+  --c-gold:#FACC15;
+  --c-sky:#38BDF8;
+  --font-sans:"PingFang SC","Microsoft YaHei","Segoe UI","Noto Sans CJK SC",system-ui,-apple-system,sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;padding:0;width:100%;height:100%;overflow:hidden;
+  background:var(--bg);color:var(--ink);font-family:var(--font-sans);
+  -webkit-font-smoothing:antialiased;
+}
+button,input{font:inherit;color:var(--ink)}
+button{
+  background:rgba(24,38,62,.88);border:1px solid var(--line);border-radius:8px;
+  padding:6px 11px;min-height:34px;font-size:12.5px;line-height:1.2;cursor:pointer;
+  transition:background .16s,border-color .16s,color .16s;white-space:nowrap;
+}
+button:hover{background:rgba(36,56,90,.96);border-color:var(--line-strong)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--c-sky);outline-offset:2px}
+button.active{background:rgba(56,189,248,.18);border-color:rgba(56,189,248,.62);color:#E0F2FE;font-weight:600}
+
+.app{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:56px minmax(0,1fr) 44px;
+  width:100%;height:100vh;height:100dvh;overflow:hidden;
+}
+
+/* Header */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:0 16px;background:rgba(12,20,35,.95);border-bottom:1px solid var(--line);z-index:20;
+  min-width:0;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:0}
+.brand-badge{
+  width:32px;height:32px;border-radius:9px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(45,212,191,.22),rgba(56,189,248,.22));
+  border:1px solid rgba(56,189,248,.48);display:grid;place-items:center;
+  font-family:var(--font-mono);font-size:13px;font-weight:800;color:#7DD3FC;
+}
+.brand-title strong{display:block;font-size:14.5px;font-weight:700;letter-spacing:.2px;white-space:nowrap}
+.brand-title small{display:block;font-size:11px;color:var(--dim);margin-top:1px;white-space:nowrap}
+
+.toolbar-mid{display:flex;align-items:center;gap:8px;min-width:0}
+.seg{display:inline-flex;padding:2px;border-radius:9px;background:rgba(9,15,27,.8);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;min-height:28px;padding:4px 11px;border-radius:7px;color:var(--muted)}
+.seg button.active{background:rgba(56,189,248,.2);color:#F0F9FF}
+
+.search-wrap{position:relative;display:flex;align-items:center}
+.search-wrap input{
+  width:185px;height:32px;padding:0 28px 0 10px;border-radius:8px;
+  border:1px solid var(--line);background:rgba(9,15,27,.85);font-size:12.5px;
+}
+.search-wrap input::placeholder{color:var(--dim)}
+.search-clear{
+  position:absolute;right:4px;min-height:22px;padding:0 6px;border:0;background:transparent;
+  color:var(--dim);font-size:14px;display:none;
+}
+.search-clear.show{display:inline-flex;align-items:center}
+
+.toolbar-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.zoom-readout{
+  font-family:var(--font-mono);font-size:12px;color:var(--muted);min-width:44px;text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+
+/* Main Workspace */
+.workspace{position:relative;min-height:0;overflow:hidden;width:100%}
+
+/* Mindmap Canvas */
+.canvas-view{
+  position:absolute;inset:0;overflow:hidden;cursor:grab;user-select:none;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(rgba(148,176,210,.16) 1px,transparent 1px),
+    radial-gradient(ellipse 60% 45% at 85% 15%,rgba(56,189,248,.07),transparent 65%),
+    radial-gradient(ellipse 50% 45% at 12% 85%,rgba(45,212,191,.07),transparent 65%);
+  background-size:26px 26px,100% 100%,100% 100%;
+  touch-action:none;
+}
+.canvas-view.dragging{cursor:grabbing}
+.world{
+  position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform;
+}
+.edges-svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.edge-path{fill:none;stroke-width:2.2;stroke-linecap:round;opacity:.72;transition:opacity .18s,stroke-width .18s}
+.edge-path.hl{opacity:1;stroke-width:3.2;filter:drop-shadow(0 0 6px currentColor)}
+.edge-path.dim{opacity:.16}
+
+.nodes-layer{position:absolute;left:0;top:0}
+.node{
+  position:absolute;border-radius:11px;background:var(--surface);
+  border:1px solid var(--line);padding:9px 13px;cursor:pointer;
+  box-shadow:0 8px 22px rgba(0,0,0,.32);
+  transition:border-color .16s,box-shadow .16s,opacity .16s,transform .16s;
+  display:flex;flex-direction:column;gap:4px;
+}
+.node:hover{border-color:var(--line-strong);box-shadow:0 10px 26px rgba(0,0,0,.46)}
+.node.selected{
+  box-shadow:0 0 0 2px var(--node-color,#38BDF8),0 12px 28px rgba(0,0,0,.55);
+  border-color:var(--node-color,#38BDF8);
+  background:var(--surface-2);
+}
+.node.dim{opacity:.24}
+.node.match{box-shadow:0 0 0 2px #FACC15,0 0 18px rgba(250,204,21,.45)}
+
+.node.depth-0{
+  width:214px;padding:15px 16px;border-radius:15px;text-align:center;
+  background:linear-gradient(145deg,#1D2F52,#101B30);
+  border:1.5px solid rgba(129,140,248,.72);
+  box-shadow:0 0 40px rgba(99,102,241,.24),0 14px 32px rgba(0,0,0,.48);
+}
+.node.depth-0 .node-title{font-size:16.5px;font-weight:800;line-height:1.35;color:#fff}
+.node.depth-0 .node-sub{font-size:11.5px;color:#A5B4FC;margin-top:4px;line-height:1.4}
+
+.node.depth-1{
+  width:210px;padding:9px 12px;border-left:4px solid var(--node-color);
+  background:linear-gradient(135deg,rgba(22,36,60,.96),rgba(15,25,43,.95));
+}
+.node.depth-1.side-left{border-left:1px solid var(--line);border-right:4px solid var(--node-color)}
+.node.depth-1 .node-title{font-size:13.5px;font-weight:700;line-height:1.32;color:#F8FAFC}
+.node.depth-1 .node-sub{font-size:11px;color:var(--muted);line-height:1.38}
+
+.node.depth-2{
+  width:274px;padding:7px 12px;border-left:3px solid var(--node-color);gap:2px;
+}
+.node.depth-2.side-left{border-left:1px solid var(--line);border-right:3px solid var(--node-color)}
+.node.depth-2 .node-title{font-size:12.5px;font-weight:600;line-height:1.34;color:#EEF4FB}
+.node.depth-2 .node-sub{font-size:11px;color:var(--dim);line-height:1.34;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.node.depth-3{
+  width:288px;padding:7px 12px;border-radius:9px;gap:2px;
+  background:rgba(15,24,42,.94);border-left:2px solid var(--node-color);
+}
+.node.depth-3.side-left{border-left:1px solid var(--line);border-right:2px solid var(--node-color)}
+.node.depth-3 .node-title{font-size:12px;font-weight:600;line-height:1.36;color:#E2ECF7}
+.node.depth-3 .node-sub{font-size:11px;color:var(--muted);line-height:1.38}
+
+.node-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.node-tag{
+  display:inline-flex;align-items:center;padding:1px 6px;border-radius:4px;
+  font-size:10px;font-weight:700;letter-spacing:.2px;flex-shrink:0;
+  background:rgba(255,255,255,.07);color:var(--node-color);
+  border:1px solid rgba(255,255,255,.12);
+}
+.node-tag.ok{color:#5EEAD4;background:rgba(45,212,191,.14);border-color:rgba(45,212,191,.35)}
+.node-tag.warn{color:#FCD34D;background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.36)}
+.node-tag.risk{color:#FDA4AF;background:rgba(251,113,133,.15);border-color:rgba(251,113,133,.36)}
+.node-tag.info{color:#7DD3FC;background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.35)}
+
+.toggle-btn{
+  position:absolute;right:-24px;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;min-height:22px;padding:0;border-radius:999px;
+  background:#0F1A2E;border:1.5px solid var(--node-color);color:var(--node-color);
+  font-family:var(--font-mono);font-size:10px;font-weight:700;
+  display:grid;place-items:center;z-index:5;box-shadow:0 2px 8px rgba(0,0,0,.45);
+}
+.node.side-left .toggle-btn{right:auto;left:-24px}
+.toggle-btn:hover{background:var(--node-color);color:#09111E}
+
+/* Right Detail Drawer */
+.drawer{
+  position:absolute;top:12px;right:12px;bottom:12px;width:min(390px,calc(100% - 24px));
+  background:var(--panel);border:1px solid var(--line-strong);border-radius:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.55);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;z-index:15;
+  transform:translateX(calc(100% + 20px));transition:transform .22s ease;
+}
+.drawer.open{transform:translateX(0)}
+.drawer-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  padding:15px 16px 12px;border-bottom:1px solid var(--line);
+}
+.drawer-path{font-size:11.5px;color:var(--dim);margin-bottom:5px;line-height:1.4}
+.drawer-title{font-size:16px;font-weight:700;line-height:1.35;color:#fff;margin:0}
+.drawer-close{min-height:28px;padding:3px 9px;font-size:12px;flex-shrink:0}
+.drawer-body{
+  padding:14px 16px 18px;overflow-y:auto;display:grid;gap:12px;align-content:start;
+  scrollbar-width:thin;scrollbar-color:rgba(148,176,210,.28) transparent;
+}
+.detail-block{
+  padding:11px 13px;border-radius:10px;background:rgba(10,17,30,.72);
+  border:1px solid var(--line);display:grid;gap:6px;
+}
+.detail-block h4{
+  margin:0;font-size:11.5px;letter-spacing:.8px;color:var(--c-sky);text-transform:uppercase;
+}
+.detail-block.warn h4{color:var(--c-amber)}
+.detail-block.risk h4{color:var(--c-rose)}
+.detail-block.ok h4{color:var(--c-teal)}
+.detail-block p{margin:0;font-size:13px;line-height:1.62;color:var(--muted)}
+.detail-list{margin:0;padding-left:16px;display:grid;gap:5px;font-size:12.8px;line-height:1.58;color:var(--muted)}
+.detail-list strong{color:var(--ink)}
+.child-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.child-pill{
+  font-size:12px;padding:4px 9px;border-radius:6px;background:rgba(255,255,255,.05);
+  border:1px solid var(--line);color:var(--ink);cursor:pointer;text-align:left;white-space:normal;
+}
+.child-pill:hover{border-color:var(--c-sky);background:rgba(56,189,248,.12)}
+
+/* Outline View (Alternative readable mode & Mobile friendly) */
+.outline-view{
+  position:absolute;inset:0;overflow-y:auto;padding:22px clamp(16px,4vw,48px) 36px;
+  background:var(--bg);display:none;
+}
+.outline-view.show{display:block}
+.outline-wrap{max-width:1180px;margin:0 auto;display:grid;gap:18px}
+.outline-hero{
+  padding:18px 22px;border-radius:14px;background:linear-gradient(135deg,#172642,#101B2E);
+  border:1px solid rgba(129,140,248,.48);display:grid;gap:6px;
+}
+.outline-hero h2{margin:0;font-size:22px;color:#fff}
+.outline-hero p{margin:0;font-size:14px;color:var(--muted);line-height:1.6}
+.outline-branch{
+  border-radius:14px;background:var(--surface);border:1px solid var(--line);
+  border-top:3px solid var(--b-color);padding:16px 18px;display:grid;gap:12px;
+}
+.outline-branch-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.outline-branch-head h3{margin:0;font-size:17px;color:#fff}
+.outline-branch-head span{font-size:12.5px;color:var(--muted)}
+.outline-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.outline-card{
+  padding:12px 14px;border-radius:10px;background:rgba(10,17,30,.75);
+  border:1px solid var(--line);display:grid;gap:7px;align-content:start;
+}
+.outline-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.outline-card-head strong{font-size:14px;color:var(--ink);line-height:1.4}
+.outline-card p{margin:0;font-size:13px;line-height:1.58;color:var(--muted)}
+.outline-sublist{margin:0;padding-left:16px;display:grid;gap:4px;font-size:12.5px;line-height:1.52;color:#C8D7E8}
+
+/* Bottom Bar */
+.footbar{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:0 16px;background:rgba(12,20,35,.96);border-top:1px solid var(--line);z-index:20;
+  overflow-x:auto;scrollbar-width:none;
+}
+.footbar::-webkit-scrollbar{display:none}
+.branch-jumps{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.jump-pill{
+  display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:3px 10px;
+  border-radius:999px;font-size:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);
+}
+.jump-pill i{width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--dot)}
+.jump-pill:hover{border-color:var(--dot);color:#fff}
+.foot-hint{font-size:11.5px;color:var(--dim);white-space:nowrap;flex-shrink:0}
+
+/* Mobile Responsive */
+@media (max-width:960px){
+  .app{grid-template-rows:auto minmax(0,1fr) 44px}
+  .topbar{padding:8px 12px;flex-wrap:wrap;gap:8px}
+  .brand-title small,.foot-hint,#btn-full,.zoom-readout{display:none}
+  .search-wrap input{width:136px}
+  .toolbar-right button{padding:5px 8px;font-size:12px;min-height:30px}
+  .outline-cards{grid-template-columns:1fr}
+  .drawer{
+    top:auto;left:10px;right:10px;bottom:10px;width:auto;max-height:58vh;
+    transform:translateY(calc(100% + 20px));
+  }
+  .drawer.open{transform:translateY(0)}
+}
+
+@media print{
+  html,body{height:auto;overflow:visible;background:#fff;color:#111}
+  .topbar,.footbar,.canvas-view,.drawer{display:none!important}
+  .app,.workspace{display:block;height:auto;overflow:visible}
+  .outline-view{display:block!important;position:static;overflow:visible;background:#fff;padding:10mm}
+  .outline-hero,.outline-branch,.outline-card{
+    background:#F8FAFC!important;color:#111!important;border-color:#CBD5E1!important;break-inside:avoid;
+  }
+  .outline-hero h2,.outline-branch-head h3,.outline-card-head strong{color:#0F172A!important}
+  .outline-hero p,.outline-card p,.outline-sublist,.outline-branch-head span{color:#334155!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-badge" aria-hidden="true">DEV</div>
+      <div class="brand-title">
+        <strong>渠道近期开发技术复盘 · 思维导图</strong>
+        <small>开发思路诊断 · 核心技术卡点 · 推进阻力 · 解决周期（2026-11-27）</small>
+      </div>
+    </div>
+
+    <div class="toolbar-mid">
+      <div class="seg" role="tablist" aria-label="视图切换">
+        <button id="tab-map" class="active" type="button" role="tab" aria-selected="true">思维导图</button>
+        <button id="tab-outline" type="button" role="tab" aria-selected="false">大纲清单</button>
+      </div>
+      <div class="search-wrap">
+        <input id="search-input" type="search" placeholder="搜索 PR / 卡点 / 周期..." aria-label="搜索思维导图节点">
+        <button id="search-clear" class="search-clear" type="button" aria-label="清除搜索">×</button>
+      </div>
+    </div>
+
+    <div class="toolbar-right" id="map-controls">
+      <button id="btn-standard" type="button" title="展开到二级重点（推荐开会视图）">标准视图</button>
+      <button id="btn-expand-all" type="button" title="展开全部三级技术细项">展开全部</button>
+      <button id="btn-collapse" type="button" title="收起到五大主干">只看主干</button>
+      <button id="btn-fit" type="button" title="自动居中缩放适应窗口">适应画面</button>
+      <button id="btn-zoom-out" type="button" aria-label="缩小">−</button>
+      <span class="zoom-readout" id="zoom-readout">100%</span>
+      <button id="btn-zoom-in" type="button" aria-label="放大">+</button>
+      <button id="btn-full" type="button">全屏</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="canvas-view" id="canvas-view" aria-label="交互式思维导图画布">
+      <div class="world" id="world">
+        <svg class="edges-svg" id="edges-svg"></svg>
+        <div class="nodes-layer" id="nodes-layer"></div>
+      </div>
+
+      <aside class="drawer" id="drawer" aria-label="节点技术详情">
+        <div class="drawer-head">
+          <div>
+            <div class="drawer-path" id="drawer-path"></div>
+            <h3 class="drawer-title" id="drawer-title"></h3>
+          </div>
+          <button class="drawer-close" id="drawer-close" type="button">关闭</button>
+        </div>
+        <div class="drawer-body" id="drawer-body"></div>
+      </aside>
+    </section>
+
+    <section class="outline-view" id="outline-view" aria-label="技术复盘结构化大纲">
+      <div class="outline-wrap" id="outline-wrap"></div>
+    </section>
+  </main>
+
+  <footer class="footbar">
+    <div class="branch-jumps" id="branch-jumps"></div>
+    <span class="foot-hint">滚轮缩放 · 拖拽画布 · 点击节点查看技术研判 · 点击节点右侧 +/− 展开细节</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const TREE = {
+    id: 'root',
+    title: '渠道近期开发技术复盘与攻坚规划',
+    sub: '2026-11-27 技术评审版 · 点击任意节点看详细研判',
+    color: '#818CF8',
+    detail: {
+      summary: '围绕渠道客户管理系统近期开发工作（含主 CRM 接入、放单反馈、我的业绩、平台绑定及二阶段商品库起步），从工程架构视角评估当前开发思路，梳理 6 大真实技术卡点、5 类推进阻力与 10 周分波次解决周期。',
+      evidence: [
+        '<strong>核心结论</strong>：整体开发纪律很扎实（零重大生产数据事故），但<strong>架构耦合过重 + 多分支挂起 + 上游契约滞后</strong>正在严重拖慢研发效率。',
+        '<strong>破局主线</strong>：先用 2 周集中收口一阶段遗留 PR（#160 / #41 / #42 验收），随后将二阶段采集、分级、对撞彻底解耦到<strong>独立服务 + 独立库</strong>，把 80% 高频迭代移出主 CRM 发布审批链路。'
+      ],
+      action: '开会建议顺序：先对齐「一、开发思路诊断」→ 逐项过「二、技术卡点」与「三、推进阻力」→ 拍板「四、解决周期」里的第 1 波 2 周收口清单。'
+    },
+    children: [
+      {
+        id: 'b-thinking',
+        title: '一、开发思路诊断（有没有问题？）',
+        sub: '总体纪律过硬，但存在 4 个结构性瓶颈必须纠偏',
+        tag: '3对 · 4偏',
+        tagType: 'ok',
+        color: '#2DD4BF',
+        detail: {
+          summary: '判断结论：方向和工程底线是对的，但继续沿用「所有能力都绑进主 CRM 发版 + 无上游契约先写下游 + 多分支并行挂起」的方式，二阶段开发会越走越重。',
+          evidence: [
+            '<strong>值得坚持</strong>：防垃圾开发硬规则、真实 CRM 组合验收、主系统统一账号与权限边界、人工校准兜底。',
+            '<strong>必须纠偏</strong>：跨端强耦合耗尽迭代速度；多 worktree 并行堆出合并债；上游数据源缺契约导致写完卡上线；测试/生产环境标识混淆与真人验收断层。'
+          ],
+          action: '核心动作：一阶段收口后冻结主 CRM 频繁改动；二阶段坚持「架构解耦 + 契约先行 + 限流并行 PR ≤ 2 个」。'
+        },
+        children: [
+          {
+            id: 't-good',
+            title: '做对了什么（3 条底线必须保留）',
+            sub: '防垃圾开发 · 真实组合验收 · 人工兜底边界',
+            tag: '坚持',
+            tagType: 'ok',
+            detail: {
+              summary: '你们已建立的工程质量护栏在高频业务变更中发挥了关键作用，截至目前保持了生产账目与核心数据的完整性。',
+              evidence: [
+                '<strong>两条硬规则落地</strong>：禁止为等审核瞎扩功能，拒绝用纯模拟/单前端冒充 CRM 组合验收。',
+                '<strong>统一账号与数据保护</strong>：沿用主 CRM 统一登录与稳定 <code>crm_user_id</code>，不恢复独立密码口子；迁移兼容留列不覆盖旧库。',
+                '<strong>克制的自动化</strong>：主页匹配留「待确认」、微信反馈保留人工修正摘要、推单先推荐后人工确认。'
+              ],
+              action: '继续执行固定 SHA 审核与备份演练，不因赶进度牺牲数据安全底线。'
+            },
+            children: [
+              { id: 't-good-1', title: '质量护栏：防垃圾开发 + 真实 CRM 全链路组合验收', sub: '有效避免了“本地能跑、线上崩坏”的无效返工' },
+              { id: 't-good-2', title: '身份边界：统一 CRM 登录与稳定员工 ID 归属', sub: '不按易变姓名猜历史归属，保护红包/业绩财务准确性' },
+              { id: 't-good-3', title: '业务克制：先辅助人工确认，再逐步放开规则自动', sub: '降低误匹配、死单推送和生产脏写风险' }
+            ]
+          },
+          {
+            id: 't-issue-coupling',
+            title: '纠偏 1：主 CRM 强耦合导致迭代过重',
+            sub: '80% 精力耗在跨端交接/复审/排窗，20% 在写业务',
+            tag: '首要纠偏',
+            tagType: 'risk',
+            detail: {
+              summary: '当前几乎每个业务调整都要横跨 channel-system 与主 CRM 两套仓库，走固定提交冻结、回执互传、排 1 小时窗口与 15 分钟观察，研发吞吐被严重压缩。',
+              evidence: [
+                'PR #12、#24、#29、#38、#41、#42、#156/#160 全是跨端重交付，PR #41 甚至积压到 <strong>56 个文件统一候选</strong>。',
+                '为了应急不得已做了 3 文件热补丁（组员编辑），反过来增加了主线覆盖风险。'
+              ],
+              action: '<strong>架构硬切分</strong>：主 CRM 仅保留登录态、菜单入口与稳定只读汇总页；二阶段采集、清洗、分级、对撞、标签全部下沉独立服务 + 独立库，通过稳定轻量 API 对接。'
+            },
+            children: [
+              { id: 't-ic-1', title: '现状：每次功能迭代都要双端打包 + 固定窗口联审', sub: '适合核心账本，但完全不适合二阶段高频调规则' },
+              { id: 't-ic-2', title: '解法：二阶段独立服务 + 独立数据库演进', sub: '与 CRM 仅做只读查询/推荐卡片轻耦合，剥离 80% 审批依赖' }
+            ]
+          },
+          {
+            id: 't-issue-branch',
+            title: '纠偏 2：多分支/Worktree 并行挂起堆积合并债',
+            sub: '6+ 条未彻底收口分支并存，极易选错目录或互相覆盖',
+            tag: '流程问题',
+            tagType: 'warn',
+            detail: {
+              summary: '多个功能在等审核或等上游期间长期挂在独立 worktree，导致基线漂移、三份重叠业务文件需要反复手工增量融合。',
+              evidence: [
+                '目前存在 <code>cooperation-main-review-20261124</code>、<code>customer-member-edit-20261121</code>、<code>dispatch-chat-review</code>、<code>session-draft-recovery</code> 等多套工作树。',
+                '已多次出现 GitHub Desktop 选错 linked worktree、历史 PR #13/#15 悬置等问题。'
+              ],
+              action: '限制同时在研未合 PR ≤ 2 个；优先用 1–2 周把 PR #160 与 PR #41 合入主干并归档旧 worktree。'
+            },
+            children: [
+              { id: 't-ib-1', title: '症状：紧急热补 3 文件未入 main，后续发版有被覆盖风险', sub: 'PR #41（56 文件）需尽快补审合并收口' },
+              { id: 't-ib-2', title: '制度：主干小步快合，在研未合分支上限 ≤ 2 条', sub: '提交前强制校验 worktree 路径、分支名与文件清单' }
+            ]
+          },
+          {
+            id: 't-issue-contract',
+            title: '纠偏 3：缺上游权威契约就先写下游消费代码',
+            sub: '前端与读取器早早过审，临上线才卡死在真实数据出口',
+            tag: '开发顺序偏',
+            tagType: 'risk',
+            detail: {
+              summary: '最典型的教训是「我的业绩（PR #156/#160）」：页面、权限、读取器、离线出件程序与 79 项合成测试全部完成，最终却卡在放单宝正式镜像出口与结算后退款修订依据未拿到。',
+              evidence: [
+                '同样情况也在二阶段苗头初现：小伙伴仍靠 10-20 静态快照（40,756 条），非实时增量接口。',
+                '用合成数据做完大量防御代码，一旦上游真实字段或修订语义变化，极易触发二次返工。'
+              ],
+              action: '后续所有数据类需求强制<strong>「契约先行（Contract-First）」</strong>：先拿真实样本、定死唯一主键/修订序号/限流规则，再写消费逻辑和页面。'
+            },
+            children: [
+              { id: 't-ico-1', title: '反例：PR #160 出件与页面已就绪，却卡在真实镜像出口', sub: '不能用抓取时间或模拟递增冒充订单修订版本' },
+              { id: 't-ico-2', title: '铁律：先打通真实样本与字段契约，再做下游分级/页面', sub: '杜绝“写完 100% 合成测试却上不了线”' }
+            ]
+          },
+          {
+            id: 't-issue-ops',
+            title: '纠偏 4：环境标识混用 + 技术终核≠业务验收闭环',
+            sub: '生产服务名含 test · 共享磁盘竞争 · 缺真人首周签收',
+            tag: '运维盲区',
+            tagType: 'warn',
+            detail: {
+              summary: '生产实际共享服务与 SQLite 路径仍带 <code>test</code> 命名，且同卷承载多个定时写入任务；同时多项功能止步于“技术终核通过”，缺少业务员真实使用闭环。',
+              evidence: [
+                '线上真实库为 <code>/var/lib/channel-system-test/channel.sqlite</code>，极易在交接中误判环境级别。',
+                '11-20 微信刷新因与首页预热 PostgreSQL 临时文件抢同一磁盘卷，触发 >1 GiB 保护退出码 42。',
+                'PR #29、#38、#42 技术终核均 PASS，但 <code>employeeNaturalBusiness</code> 长期停在待观察。'
+              ],
+              action: '二阶段独立库独立磁盘配额；上线同步附“3 分钟业务员验收单”，48 小时内完成真人签收闭环。'
+            }
+          }
+        ]
+      },
+      {
+        id: 'b-tech-blockers',
+        title: '二、技术方面核心卡点（6 大硬骨头）',
+        sub: '全部基于近期 PR、线上日志与真实运行证据',
+        tag: '6 项真实卡点',
+        tagType: 'warn',
+        color: '#F59E0B',
+        detail: {
+          summary: '梳理出当前正在卡住上线、影响性能稳定性或直接决定二阶段成败的 6 个具体技术卡点，已区分「一阶段收口卡点」与「二阶段攻坚卡点」。',
+          evidence: [
+            '<strong>一阶段最紧迫</strong>：PR #160 放单宝正式出口/退款契约、PR #41 56 文件合并防覆盖、PR #24 后偶发首开 5.3s 上游等待、系统 #178/#179 附件串图。',
+            '<strong>二阶段最核心</strong>：多源限流与短链归一、漏洞单分钟级捕获与推前实时验价、小伙伴增量对撞。'
+          ],
+          action: '建议会上对这 6 项逐一确认负责人与排期，不留模糊灰区。'
+        },
+        children: [
+          {
+            id: 'tb-pr160',
+            title: '卡点 1：「我的业绩」正式数据源与退款修订缺证',
+            sub: 'PR #39 / #156 / #160 · 出件程序已修完，卡真实入口',
+            tag: 'P0 · 阻断上线',
+            tagType: 'risk',
+            detail: {
+              summary: 'PR #156（页面/读取器）独立复核已 PASS；PR #160 出件程序 11-27 上午已修复 5 项复审意见及「清空结算日跨月重复计入」绕过（SHA <code>7909da37</code>，出件 45/45、金额回归 34/34），正在补本机串联验收。',
+              evidence: [
+                '<strong>卡点 A</strong>：放单宝五账号完整历史与正式生产镜像出口尚未取到。',
+                '<strong>卡点 B</strong>：真实环境中「结算后退款」与「金额修订」的新旧字段变化样本缺失，无法验证生产修订语义。',
+                '<strong>约束</strong>：严禁用抓取时间或本机递增序号冒充订单权威修订版本号。'
+              ],
+              action: '优先级 P0：本机串联验收完成后，立刻由上游确认正式镜像出口与退款修订样本，拿齐后一次性送主 CRM 审核上线（预计 3–5 天）。'
+            },
+            children: [
+              { id: 'tb-160-1', title: '已完成：页面/权限过审 + 出件 45/45 与金额回归 34/34', sub: '最新提交 7909da37，堵住跨月重复计入绕过' },
+              { id: 'tb-160-2', title: '唯一实卡点：缺放单宝正式镜像出口 & 结算后退款修订依据', sub: '合成测试无法替代，拿到真实依据即可进入上线窗口' }
+            ]
+          },
+          {
+            id: 'tb-pr41',
+            title: '卡点 2：PR #41（56 文件）待审合并 & 客户主页入库',
+            sub: '紧急上线 3 文件游离主线 · 198 客户 / 428 行人工表未导入',
+            tag: 'P0 · 防覆盖',
+            tagType: 'risk',
+            detail: {
+              summary: '11-21 为保障日常使用，已按例外授权紧急上线「组员编辑在用客户与平台主页」3 个业务文件，但完整 56 文件统一候选 PR #41（<code>1088668a</code>）仍未合入 <code>main</code>。',
+              evidence: [
+                '若后续发布不先合并 PR #41，存在<strong>覆盖已上线组员编辑修复</strong>的高风险。',
+                '人工确认表 198 客户 / 428 客户-平台行中，48 行确认链接涉及 2 组多链接与 5 组跨客户共用主页，不可粗暴覆盖或按同名自动换绑。'
+              ],
+              action: '先推动 PR #41 补审入主干消除覆盖风险；再按稳定客户 ID + 平台主键逐条安全导入已确认的 48 条主页，多链接/共用项保留人工标记。'
+            },
+            children: [
+              { id: 'tb-41-1', title: '风险点：3 个热修业务文件尚未合入 main', sub: '后续其他 PR 发布可能无意覆盖组员编辑能力' },
+              { id: 'tb-41-2', title: '数据点：48 条确认主页含多链接与跨客户共用', sub: '须按稳定 ID+平台幂等导入，修改链接重置待确认' }
+            ]
+          },
+          {
+            id: 'tb-pr42',
+            title: '卡点 3：微信反馈刷新容量竞争 & 8/390 来源缺口',
+            sub: 'PR #40 → #42 · 11-26 12:00 已恢复成功，需防复发与补验收',
+            tag: 'P1 · 稳态监控',
+            tagType: 'warn',
+            detail: {
+              summary: 'PR #42 已成对上线，11-26 12:00 定时刷新首次恢复成功（退出码 0，新 v3 批次 12:00:37，382/390 份成功读取），但底层隐患仍需持续盯防。',
+              evidence: [
+                '11-20 曾因共享卷增长超 1 GiB 触发退出码 42（<code>runtime_volume_growth_exceeds_budget</code>），与首页预热 PostgreSQL 临时文件存在时间重叠。',
+                '390 份来源中仍有 8 份格式不完整，标为「部分获取」。',
+                '员工本人从 CRM「我的放单结果」页面实测尚未完成签收。'
+              ],
+              action: '保持 12:00/18:00 错峰与 1 GiB 保护不放松，连续观察 3–5 个自然批次；本周内安排业务员按 11-19 商品实测签收；排查 8 份异常来源格式。'
+            }
+          },
+          {
+            id: 'tb-slow5s',
+            title: '卡点 4：CRM 入口偶发首开 ~5.3 秒上游等待',
+            sub: 'PR #24 遗留性能根因未定位（另含 34.8s 跳转段）',
+            tag: 'P1 · 待分段诊断',
+            tagType: 'warn',
+            detail: {
+              summary: 'PR #24 已把商品登记首屏分页优化为 24 件（单次样本约 0.62s），但线上监测到员工首开仍偶发约 5 秒卡顿。',
+              evidence: [
+                '同请求抓证（<code>index-BGWyjR-g.js</code>）：浏览器首字节 <strong>5348ms</strong>、传输仅 56ms；Nginx <code>upstream_response_time=5.319s</code>，<code>upstream_connect_time=0ms</code>。',
+                '说明瓶颈明确在「上游等待」而非网络传输或建连，但缺少同请求分段耗时日志，暂无法细分是 CRM worker 排队、会话校验、代理层还是渠道内部耗时。'
+              ],
+              action: '不盲改生产配置；由主 CRM 按既定精简提示词做只读时间线关联与最小分段打点诊断，拿实证后再精准修。'
+            }
+          },
+          {
+            id: 'tb-phase2-crawl',
+            title: '卡点 5：二阶段多平台采集（限流 / 归一 / 漏洞单时效）',
+            sub: '大淘客限流 · 群短链/换行解析 · 漏洞单分钟级失效',
+            tag: 'P0 · 二阶段核心',
+            tagType: 'risk',
+            detail: {
+              summary: '独立商品库已部署，但要把 6+ 来源变成可用、可分级的商品资产，必须攻克 4 个硬技术问题。',
+              evidence: [
+                '<strong>接口限流与反爬</strong>：大淘客/Firecrawl 已实际遇到 <code>Rate limit exceeded</code>；微博/B 站噪声极高且反爬严。',
+                '<strong>非标文本与短链归一</strong>：飞书 <code>parseOffers</code> 曾漏解析「蓝帆医疗足贴」（纯文本标题+换行 URL），微信采集群格式更杂，必须统一还原为标准 <code>平台 + ItemID</code> 才能去重与对撞。',
+                '<strong>漏洞单极短时效</strong>：好价漏洞可能 20–60 分钟失效，沿用日级同步必推死单。'
+              ],
+              action: '① 三梯队接入（API 平台 → 微信群 → 白名单博主）；② 统一短链转 ItemID 解析器 + 漏单队列；③ 常规单小时级 / 漏洞单分钟级爆发检测 + 推前实时验价与短 TTL 自动过期。'
+            },
+            children: [
+              { id: 'tb-p2-1', title: '限流退避：低并发 + 断点续采 + 失败保留上一批次', sub: '应对大淘客/好单库限流与接口波动' },
+              { id: 'tb-p2-2', title: '统一主键：短链/口令还原标准 ItemID + 跨源去重', sub: '同时修复飞书 parseOffers 换行链接漏单问题' },
+              { id: 'tb-p2-3', title: '双轨时效：漏洞单分钟级捕捉 + 推前实时验价/短 TTL', sub: '杜绝过期涨价“死单”毁掉线报 IP 口碑' },
+              { id: 'tb-p2-4', title: '增量对撞：小伙伴商品库从 10-20 静态快照升级高频同步', sub: '确保与内部招商供品对标结果实时准确' }
+            ]
+          },
+          {
+            id: 'tb-data-debt',
+            title: '卡点 6：历史账务/附件串图与规则割裂尾项',
+            sub: '系统 #178/#179 附件仍颠倒 · 余额差 · 小昭规则不同步',
+            tag: 'P1 · 数据清零',
+            tagType: 'warn',
+            detail: {
+              summary: '几项零散的数据一致性欠债若不集中清零，会持续干扰日常对账与审单准确率。',
+              evidence: [
+                '<strong>附件串图</strong>：11-24 已更正飞书 #178（青风 88 元）与 #179（小师妹 50 元），但<strong>系统侧原始附件仍挂反未修</strong>。',
+                '<strong>账本与日报口径</strong>：飞书与系统存在历史余额差（备用金 8,000 / 20 组历史重复 / ¥130 留空）；11-26 合作单 #150 业务员待定。',
+                '<strong>审单割裂</strong>：飞书智能体「小昭」不自动共享助手记忆与最新 146+ 条人工审单规则。'
+              ],
+              action: '安排 1 次受控修正把系统 #178/#179 附件纠偏；固化小昭知识库月度同步清单；每日 08:30 Codex Token 异常（11-27 接口失败）补跑 11-26 数据。'
+            }
+          }
+        ]
+      },
+      {
+        id: 'b-friction',
+        title: '三、遇到什么阻力问题？（推进瓶颈）',
+        sub: '不止是代码问题，5 类协同与外部阻力最拖节奏',
+        tag: '5 大阻力',
+        tagType: 'risk',
+        color: '#FB7185',
+        detail: {
+          summary: '回顾过去一个月的开发记录，真正拖慢进度的往往不是写代码本身，而是跨系统审批摩擦、上游无契约、环境受限与业务验收滞后这 5 类阻力。',
+          evidence: [
+            '同样一个中等功能，本地开发+测试可能 1–2 天，但跨端核对基线、补包、等复审、排上线窗口常常拉长到 5–10 天。',
+            '外源平台与微信号生态的封闭性，决定了不能照搬标准 SaaS 的开发预期。'
+          ],
+          action: '针对每类阻力制定“工程绕开 / 机制止损”方案，把可控研发效率先提起来。'
+        },
+        children: [
+          {
+            id: 'fr-review',
+            title: '阻力 1：跨端审核与发布流程串行耗时长',
+            sub: '双仓对齐 + 固定 SHA 回执 + 限时发布窗口',
+            tag: '最大效率阻力',
+            tagType: 'risk',
+            detail: {
+              summary: '主 CRM 作为公司生产核心系统必须严控风险，但这与渠道侧高频试错的节奏天然冲突。',
+              evidence: [
+                '每次涉及网关、权限、页面入口或迁移的改动，都要经历多轮增量复核回执与主 CRM 串行执行窗口。',
+                '若发版前主线变动，旧审核回执失效需重核，沟通成本成倍放大。'
+              ],
+              action: '<strong>不是绕开审核，而是减少“需要动主 CRM 的频率”</strong>：把二阶段核心引擎彻底放独立服务，CRM 侧只接一次稳定只读入口。'
+            }
+          },
+          {
+            id: 'fr-git',
+            title: '阻力 2：多分支/多 Worktree 下的版本管理摩擦',
+            sub: 'GitHub Desktop 选错目录 · 脏工作树 · 人工融合易错',
+            tag: '工具协同阻力',
+            tagType: 'warn',
+            detail: {
+              summary: '并行开的专题窗口多（PR12/13/15/21/24/28/29/38/39/40/41/42），不同窗口落在不同 worktree，极易产生文件漂移。',
+              evidence: [
+                'PR #13、PR #29、PR #38、PR #41 提交过程中均出现过 GitHub Desktop 指向错误 worktree 或显示旧分支/0 变更。',
+                '提交前不得不反复做文件清单 manifest 与 SHA 逐项校验。'
+              ],
+              action: '统一收口当前挂起分支，建立“1 个干净主开发目录 + 最多 1 个热修分支”的极简分支纪律，减少同时挂起的 PR 数。'
+            }
+          },
+          {
+            id: 'fr-upstream',
+            title: '阻力 3：外部上游封闭，无稳定 API 与字段契约',
+            sub: '放单宝 / 小伙伴 / 微信聊天 / 内容平台均非标准开放接口',
+            tag: '外部依赖阻力',
+            tagType: 'risk',
+            detail: {
+              summary: '渠道业务高度依赖外部生态，但几乎所有外部来源都没有面向我们的 SLA 承诺。',
+              evidence: [
+                '放单宝缺正式镜像与退款修订契约直接卡住「我的业绩」。',
+                '小伙伴依赖本机 Keychain 登录抓取，尚未形成服务器稳定增量同步。',
+                '微信聊天采集受原始导出完整度（8/390 缺口）及微信风控限制；公开站点曾遭 Cloudflare 拦截导致组员打不开。'
+              ],
+              action: '所有外源接入必须做 <strong>Adapter 隔离层 + 失败保留上一成功批次 + 人工兜底导入</strong>，绝不让单个外部源故障拖垮主系统。'
+            }
+          },
+          {
+            id: 'fr-acceptance',
+            title: '阻力 4：技术终核与员工真人验收存在时间断层',
+            sub: '功能上线后缺少一线快速反馈，隐患滞后暴露',
+            tag: '闭环阻力',
+            tagType: 'warn',
+            detail: {
+              summary: '开发与主系统把技术终核做得很严，但一线推广员和招商业务员日常忙于业务，经常上线几天后才真正点开用。',
+              evidence: [
+                '售后共同账本、货源登记、放单结果反馈等均出现“技术终核通过，但员工自然业务 <code>not_observed</code>”。',
+                '诸如登录失效报错 <code>Unexpected token &lt;</code>、附件串图、页面打不开（Cloudflare）都是在真实使用时才发现。'
+              ],
+              action: '每个功能上线时指定 1 名推广员 + 1 名业务员做「48 小时实测签收人」，用 3 个真实场景当场跑通才算结项。'
+            }
+          },
+          {
+            id: 'fr-biz-def',
+            title: '阻力 5：二阶段业务口径与分级阈值尚未定稿',
+            sub: '漏洞单/主推单硬阈值未定 · 独立库现状待对齐',
+            tag: '需求边界阻力',
+            tagType: 'info',
+            detail: {
+              summary: '二阶段「一般单 / 漏洞单 / 主推单」的量化标准、人工与自动的边界目前尚未讨论定稿，如果技术侧先猜规则写死代码，后续必大改。',
+              evidence: [
+                '例如：历史降幅多少算漏洞单？几分钟内几个群爆发算异常？主推单的最低佣金/服务费门槛是多少？',
+                '同时需盘点已部署独立商品库当前的表结构、运行脚本与服务器磁盘容量。'
+              ],
+              action: '代码层面先做<strong>「可配置规则引擎 + 权重表」</strong>，把阈值外置为配置项；待业务讨论定稿后直接填参数上线，无需改代码。'
+            }
+          }
+        ]
+      },
+      {
+        id: 'b-timeline',
+        title: '四、后续解决路径与周期（10 周技术攻坚）',
+        sub: '4 个波次：止血收口 → 解耦采库 → 分级对撞 → 标签推单',
+        tag: 'W1 — W10',
+        tagType: 'info',
+        color: '#FACC15',
+        detail: {
+          summary: '按「先清历史技术债、再解耦搭二阶段底座、最后智能化扩展」的顺序，规划未来 10 周（约 2.5 个月，跨 2026-11 底至 2027-02 初）的技术落地节奏。',
+          evidence: [
+            '<strong>原则</strong>：第 1 波（W1–W2）不清零，绝不在一阶段泥潭里硬开二阶段重耦合代码。',
+            '<strong>已留缓冲</strong>：跨端审核、上游取数对接及联调均已预留现实时间，不按“理想一天写完”倒排。'
+          ],
+          action: '每次周会只核对当波次的「硬验收指标（DoD）」，不把“本地通过”当“已完成”。'
+        },
+        children: [
+          {
+            id: 'tl-w1',
+            title: '第 1 波（W1–W2｜2 周）：一阶段技术债彻底清零',
+            sub: '2026-11-28 ～ 12-11 · 收口 PR160 / PR41 / PR42 / 附件修复',
+            tag: '立刻启动',
+            tagType: 'risk',
+            detail: {
+              summary: '集中 2 周把当前所有挂在半空中的开发项合并收口，清理多余 worktree，让第一阶段彻底进入只做轻量 Bugfix 的稳态。',
+              evidence: [
+                '<strong>T1（3–5 天）</strong>：补齐 PR #160 本机串联验收 + 拿齐放单宝正式出口与退款修订样本 → 推动 #156/#160 审核上线。',
+                '<strong>T2（2–3 天）</strong>：推动 PR #41（56 文件）补审合入 <code>main</code> 消除热补覆盖风险；导入 48 条已确认客户主页；清理旧 worktree。',
+                '<strong>T3（2–3 天）</strong>：修正系统 #178/#179 附件串图；修 <code>parseOffers</code> 换行链接回归；完成 PR #42 业务员实测签收；跟进主 CRM 首开 5.3s 分段诊断。'
+              ],
+              action: '<strong>过关标准</strong>：待合 PR 归零、历史附件与解析漏单清零、三大核心业务功能均有真人签收记录。'
+            },
+            children: [
+              { id: 'tl-w1-1', title: 'T1（3–5 天）：PR #160 补齐放单宝出口/退款依据并审核上线', sub: '彻底闭环推广员「我的业绩」' },
+              { id: 'tl-w1-2', title: 'T2（2–3 天）：PR #41 补审入主干 + 48 条确认主页安全导入', sub: '消除热补覆盖风险，清理过期 worktree' },
+              { id: 'tl-w1-3', title: 'T3（2–3 天）：修 #178/#179 系统附件 + 换行解析 + PR42 真人验收', sub: '同步交主 CRM 排查首开 5.3s 上游等待' }
+            ]
+          },
+          {
+            id: 'tl-w2',
+            title: '第 2 波（W3–W4｜2 周）：独立架构定型 + 一期采集稳态',
+            sub: '2026-12-12 ～ 12-25 · 契约先行，跑通 4 大主力商品源',
+            tag: '架构解耦',
+            tagType: 'warn',
+            detail: {
+              summary: '彻底与主 CRM 发版解耦，把已部署的独立商品库升级为可监控、可去重、带容错的标准采集底座。',
+              evidence: [
+                '<strong>T4（1 周）</strong>：盘点独立库现状，固化标准商品 Schema（标准 ItemID 主键、价格/佣金/优惠/来源/TTL）与独立磁盘配额。',
+                '<strong>T5（1 周）</strong>：稳态打通第一梯队（大淘客 / 好单库 / 放单宝，带限流退避与断点续采）+ 第二梯队（微信采集群短链还原解析器 + 漏单监控队列）。'
+              ],
+              action: '<strong>过关标准</strong>：连续 7 天自动采集去重无宕机，单品跨源归一准确率可核验，不干扰主 CRM 磁盘与进程。'
+            },
+            children: [
+              { id: 'tl-w2-1', title: 'T4（1 周）：独立商品库标准 Schema + 独立服务与磁盘隔离', sub: '冻结主 CRM 高频改动，彻底解耦迭代节奏' },
+              { id: 'tl-w2-2', title: 'T5（1 周）：打通大淘客/好单库/放单宝 + 微信采集群短链归一', sub: '配套限流退避、失败保留上一批次与漏单告警' }
+            ]
+          },
+          {
+            id: 'tl-w3',
+            title: '第 3 波（W5–W6｜2 周）：分级引擎 + 招商商品对撞上线',
+            sub: '2026-12-26 ～ 2027-01-08 · 可配置分级 + 反哺业务员见效',
+            tag: '核心产出',
+            tagType: 'ok',
+            detail: {
+              summary: '用可配置规则把海量商品筛成「漏洞/主推/一般」三档，并率先打通与小伙伴系统的商品对撞，快速产生业务价值。',
+              evidence: [
+                '<strong>T6（1 周）</strong>：上线双轨刷新（常规小时级 + 漏洞单分钟级爆发检测 + 推前实时验价/短 TTL 自动过期）+ 可配置三级分级引擎（融入 146+ 条人工审单规则）。',
+                '<strong>T7（1 周）</strong>：升级小伙伴商品库增量高频同步，上线<strong>全网爆款与内部供品自动对撞</strong>，输出每日线索反馈给招商业务员。'
+              ],
+              action: '<strong>过关标准</strong>：漏洞单分钟级捕获且推前验价有效；每日稳定输出“全网起量但内部有/可谈”的招商对撞清单。'
+            },
+            children: [
+              { id: 'tl-w3-1', title: 'T6（1 周）：双轨刷新 + 推前验价 + 可配置三级分级引擎', sub: '阈值外置为配置，业务拍板后免改代码生效' },
+              { id: 'tl-w3-2', title: 'T7（1 周）：小伙伴增量同步 + 自动商品对撞反哺招商', sub: '通过轻量只读接口/卡片接入，不重改主 CRM' }
+            ]
+          },
+          {
+            id: 'tl-w4',
+            title: '第 4 波（W7–W10｜3–4 周）：自动标签 + 辅助推单 + 扩展预留',
+            sub: '2027-01-09 ～ 02 月初 · 人机协同精准配客 + 预留三阶段接口',
+            tag: '智能提效',
+            tagType: 'info',
+            detail: {
+              summary: '打通「客户画像 → 辅助判定放给谁 → 拒单原因回流」的数据飞轮，并按需接入内容平台监控，同时为三阶段商业化留好数据扩展口。',
+              evidence: [
+                '<strong>T8（2 周）</strong>：定时抓已绑定客户平台主页在推商品 → 自动计算类目/价格带/佣金标签 V1；上线「系统判定单子放给谁」V1（输出 Top N 候选客户 + 匹配理由 + 文案草稿 + 拒单原因回流）。',
+                '<strong>T9（1–2 周）</strong>：接入微博/B 站精选白名单博主监控（人工快审入库）；在货源与账本模型中预留 <code>外部委托单</code> 与单单毛利核算字段。'
+              ],
+              action: '<strong>过关标准</strong>：推广员日均筛选配客耗时下降；拒单反馈回流闭环跑通；三阶段分账字段无需二次推倒重构。'
+            },
+            children: [
+              { id: 'tl-w4-1', title: 'T8（2 周）：客户主页自动打标签 + 系统辅助判定放给谁 V1', sub: '先辅助推荐与人工确认，记录拒单原因持续迭代' },
+              { id: 'tl-w4-2', title: 'T9（1–2 周）：微博/B 站白名单监控 + 预留外部接单分账模型', sub: '控制爬虫维护成本，提前为三阶段盈利留扩展口' }
+            ]
+          }
+        ]
+      },
+      {
+        id: 'b-status',
+        title: '五、近期各开发线状态基线（11-27 快照）',
+        sub: '开会统一口径：严格区分本机通过 / 待审 / 上线终核 / 真人签收',
+        tag: '客观基线',
+        tagType: 'info',
+        color: '#38BDF8',
+        detail: {
+          summary: '将 Codex 中所有置顶及活跃技术线程按截至 2026-11-27 09:21 的真实状态归档，避免会议中把「已开发/已终核」混淆为「已全员验收日常化」。',
+          evidence: [
+            '<strong>已上线终核（4 条）</strong>：货源登记（PR38+CRM136）、售后共同账本（PR29+CRM120）、工作台分页性能（PR24）、我的红包支出归属（PR12/21）。',
+            '<strong>刚恢复待实测（1 条）</strong>：微信放单结果反馈（PR42，11-26 12:00 已恢复成功）。',
+            '<strong>待合并/推进中（2 条主力 + 历史项）</strong>：我的业绩（PR39/156/160）、平台绑定与组员编辑统一候选（PR41）；另 PR13/PR15 为历史待审补丁。'
+          ],
+          action: '建议以此表作为本周起技术例会的追踪看板，每消掉一项红/黄标就向二阶段释放对应人力。'
+        },
+        children: [
+          {
+            id: 'st-doing',
+            title: '推进中：#PR39 / #156 / #160 我的业绩',
+            sub: '11-27 已修 5 项复审（7909da37）· 补串联验收 · 缺真实数据源',
+            tag: '未合并上线',
+            tagType: 'risk',
+            detail: {
+              summary: '当前最活跃开发线。出件 45/45 与金额回归 34/34 已通过，正在做本机实际出件→候选接口读取串联验收；拿到放单宝正式镜像出口与退款修订依据后即可推进合并上线。'
+            }
+          },
+          {
+            id: 'st-pr41',
+            title: '待补审合并：#PR41 统一候选（56 文件）',
+            sub: '组员编辑 3 文件 11-21 紧急上线 · 主线待合 · 主页导入未接入',
+            tag: '待审未合',
+            tagType: 'warn',
+            detail: {
+              summary: '固定提交 <code>1088668a</code>，34 套回归与 21 项真实 CRM 链路通过；需尽快合入 <code>main</code> 防止后续发版覆盖紧急上线修复。'
+            }
+          },
+          {
+            id: 'st-pr42',
+            title: '刚恢复待验收：#PR40 → #PR42 放单结果反馈',
+            sub: '11-26 12:00 定时刷新成功（382/390）· 安排业务员页面实测',
+            tag: '待真人签收',
+            tagType: 'warn',
+            detail: {
+              summary: '已成对上线且恢复自然刷新，退出码 0，新 v3 批次时间 11-26 12:00:37，无需再报主控，直接安排有 11-19 商品的业务员登录核对本人反馈。'
+            }
+          },
+          {
+            id: 'st-done',
+            title: '已上线终核：货源(#38) / 售后(#29) / 性能(#24) / 红包(#12/21)',
+            sub: '核心底座已稳定运行 · 按需收口体验与真人持续反馈',
+            tag: '技术终核 PASS',
+            tagType: 'ok',
+            detail: {
+              summary: '上述 4 条主线均已成对上线并通过独立终核（含 PR27 会话失效草稿保留）；剩余工作聚焦于系统 #178/#179 附件纠偏、首开 5.3s 分段诊断及持续使用反馈收集。'
+            }
+          }
+        ]
+      }
+    ]
+  };
+
+  // State
+  const nodeById = new Map();
+  const parentById = new Map();
+  const collapsed = new Set();
+
+  const LEFT_BRANCH_IDS = new Set(['b-thinking', 'b-tech-blockers']);
+
+  function indexTree(node, parent = null, inheritedColor = null, inheritedSide = 'center') {
+    node._color = node.color || inheritedColor || '#38BDF8';
+    node._depth = parent ? parent._depth + 1 : 0;
+    if (node._depth === 0) node._side = 'center';
+    else if (node._depth === 1) node._side = LEFT_BRANCH_IDS.has(node.id) ? 'left' : 'right';
+    else node._side = inheritedSide;
+
+    nodeById.set(node.id, node);
+    if (parent) parentById.set(node.id, parent);
+    if (node._depth >= 2 && node.children && node.children.length > 0) {
+      collapsed.add(node.id);
+    }
+    if (node.children) {
+      node.children.forEach((c) => indexTree(c, node, node._color, node._side));
+    }
+  }
+  indexTree(TREE);
+
+  // DOM refs
+  const canvasView = document.getElementById('canvas-view');
+  const world = document.getElementById('world');
+  const edgesSvg = document.getElementById('edges-svg');
+  const nodesLayer = document.getElementById('nodes-layer');
+  const drawer = document.getElementById('drawer');
+  const drawerPath = document.getElementById('drawer-path');
+  const drawerTitle = document.getElementById('drawer-title');
+  const drawerBody = document.getElementById('drawer-body');
+  const drawerClose = document.getElementById('drawer-close');
+  const zoomReadout = document.getElementById('zoom-readout');
+  const searchInput = document.getElementById('search-input');
+  const searchClear = document.getElementById('search-clear');
+  const tabMap = document.getElementById('tab-map');
+  const tabOutline = document.getElementById('tab-outline');
+  const outlineView = document.getElementById('outline-view');
+  const outlineWrap = document.getElementById('outline-wrap');
+  const mapControls = document.getElementById('map-controls');
+  const branchJumps = document.getElementById('branch-jumps');
+
+  let selectedId = null;
+  let searchQuery = '';
+  let viewState = { x: 40, y: 40, scale: 1 };
+  let layoutBounds = { minX: 0, minY: 0, maxX: 1200, maxY: 700 };
+  let nodeRects = new Map();
+
+  function getAncestors(id) {
+    const set = new Set();
+    let cur = id;
+    while (cur) {
+      set.add(cur);
+      const p = parentById.get(cur);
+      cur = p ? p.id : null;
+    }
+    return set;
+  }
+
+  function getPathTitles(id) {
+    const arr = [];
+    let cur = nodeById.get(id);
+    while (cur) {
+      arr.unshift(cur.title);
+      cur = parentById.get(cur.id);
+    }
+    return arr;
+  }
+
+  function matchesSearch(node, q) {
+    if (!q) return false;
+    const hay = [
+      node.title,
+      node.sub || '',
+      node.tag || '',
+      node.detail?.summary || '',
+      (node.detail?.evidence || []).join(' '),
+      node.detail?.action || ''
+    ].join(' ').toLowerCase();
+    return hay.includes(q);
+  }
+
+  function countDescendants(node) {
+    if (!node.children || !node.children.length) return 0;
+    return node.children.length;
+  }
+
+  function getVisibleNodes() {
+    const list = [];
+    function walk(node) {
+      list.push(node);
+      if (node.children && node.children.length && !collapsed.has(node.id)) {
+        node.children.forEach(walk);
+      }
+    }
+    walk(TREE);
+    return list;
+  }
+
+  function applyTransform() {
+    world.style.transform = `translate(${viewState.x}px, ${viewState.y}px) scale(${viewState.scale})`;
+    zoomReadout.textContent = Math.round(viewState.scale * 100) + '%';
+  }
+
+  function renderMap() {
+    const visible = getVisibleNodes();
+    nodesLayer.innerHTML = '';
+    const elMap = new Map();
+
+    // 1. Mount elements to measure exact natural heights
+    visible.forEach((node) => {
+      const el = document.createElement('div');
+      el.className = `node depth-${Math.min(node._depth, 3)} side-${node._side}`;
+      el.dataset.id = node.id;
+      el.style.setProperty('--node-color', node._color);
+
+      const topHtml = node.tag
+        ? `<div class="node-top"><span class="node-title"></span><span class="node-tag ${node.tagType || ''}"></span></div>`
+        : `<div class="node-title"></div>`;
+      el.innerHTML = topHtml + (node.sub ? `<div class="node-sub"></div>` : '');
+      el.querySelector('.node-title').textContent = node.title;
+      if (node.tag) el.querySelector('.node-tag').textContent = node.tag;
+      if (node.sub) el.querySelector('.node-sub').textContent = node.sub;
+
+      if (node.children && node.children.length > 0 && node._depth > 0) {
+        const isCol = collapsed.has(node.id);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'toggle-btn';
+        btn.title = isCol ? '展开子节点' : '折叠子节点';
+        btn.textContent = isCol ? '+' + countDescendants(node) : '−';
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (collapsed.has(node.id)) collapsed.delete(node.id);
+          else collapsed.add(node.id);
+          renderMap();
+        });
+        el.appendChild(btn);
+      }
+
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectNode(node.id, false);
+      });
+
+      nodesLayer.appendChild(el);
+      elMap.set(node.id, el);
+    });
+
+    // 2. Measure sizes
+    const sizeMap = new Map();
+    visible.forEach((node) => {
+      const el = elMap.get(node.id);
+      sizeMap.set(node.id, { w: el.offsetWidth, h: el.offsetHeight });
+    });
+
+    // 3. Balanced Left + Right radial XMind tree layout
+    const GAP_X = 56;
+    const ROOT_GAP_X = 60;
+    const GAP_Y = 8;
+    const BRANCH_GAP_Y = 20;
+    const subHeight = new Map();
+
+    function calcHeight(node) {
+      const { h } = sizeMap.get(node.id);
+      if (!node.children || !node.children.length || collapsed.has(node.id)) {
+        subHeight.set(node.id, h);
+        return h;
+      }
+      let total = 0;
+      node.children.forEach((c, idx) => {
+        total += calcHeight(c);
+        if (idx > 0) total += GAP_Y;
+      });
+      const res = Math.max(h, total);
+      subHeight.set(node.id, res);
+      return res;
+    }
+
+    const leftBranches = (TREE.children || []).filter((c) => c._side === 'left');
+    const rightBranches = (TREE.children || []).filter((c) => c._side === 'right');
+
+    const leftTotalH = leftBranches.reduce((acc, b, i) => acc + calcHeight(b) + (i > 0 ? BRANCH_GAP_Y : 0), 0);
+    const rightTotalH = rightBranches.reduce((acc, b, i) => acc + calcHeight(b) + (i > 0 ? BRANCH_GAP_Y : 0), 0);
+    const rootSize = sizeMap.get(TREE.id);
+    const totalH = Math.max(rootSize.h, leftTotalH, rightTotalH);
+
+    // Compute max left depth width so root sits cleanly with positive coordinates
+    function calcSideWidth(node) {
+      const { w } = sizeMap.get(node.id);
+      if (!node.children || !node.children.length || collapsed.has(node.id)) return w;
+      const maxChildW = Math.max(...node.children.map(calcSideWidth));
+      return w + GAP_X + maxChildW;
+    }
+    const maxLeftW = leftBranches.length ? Math.max(...leftBranches.map(calcSideWidth)) : 0;
+    const PAD = 36;
+    const rootX = PAD + maxLeftW + (leftBranches.length ? ROOT_GAP_X : 0);
+    const rootY = PAD + (totalH - rootSize.h) / 2;
+
+    nodeRects = new Map();
+    nodeRects.set(TREE.id, { x: rootX, y: rootY, w: rootSize.w, h: rootSize.h });
+
+    function assignRight(node, x, topY) {
+      const { w, h } = sizeMap.get(node.id);
+      const sh = subHeight.get(node.id);
+      const y = topY + (sh - h) / 2;
+      nodeRects.set(node.id, { x, y, w, h });
+      if (node.children && node.children.length && !collapsed.has(node.id)) {
+        const childrenSum = node.children.reduce((acc, c, i) => acc + subHeight.get(c.id) + (i > 0 ? GAP_Y : 0), 0);
+        let cy = topY + (sh - childrenSum) / 2;
+        const cx = x + w + GAP_X;
+        node.children.forEach((c) => {
+          assignRight(c, cx, cy);
+          cy += subHeight.get(c.id) + GAP_Y;
+        });
+      }
+    }
+
+    function assignLeft(node, rightEdgeX, topY) {
+      const { w, h } = sizeMap.get(node.id);
+      const sh = subHeight.get(node.id);
+      const x = rightEdgeX - w;
+      const y = topY + (sh - h) / 2;
+      nodeRects.set(node.id, { x, y, w, h });
+      if (node.children && node.children.length && !collapsed.has(node.id)) {
+        const childrenSum = node.children.reduce((acc, c, i) => acc + subHeight.get(c.id) + (i > 0 ? GAP_Y : 0), 0);
+        let cy = topY + (sh - childrenSum) / 2;
+        const childRightX = x - GAP_X;
+        node.children.forEach((c) => {
+          assignLeft(c, childRightX, cy);
+          cy += subHeight.get(c.id) + GAP_Y;
+        });
+      }
+    }
+
+    let ly = PAD + (totalH - leftTotalH) / 2;
+    leftBranches.forEach((b) => {
+      assignLeft(b, rootX - ROOT_GAP_X, ly);
+      ly += subHeight.get(b.id) + BRANCH_GAP_Y;
+    });
+
+    let ry = PAD + (totalH - rightTotalH) / 2;
+    rightBranches.forEach((b) => {
+      assignRight(b, rootX + rootSize.w + ROOT_GAP_X, ry);
+      ry += subHeight.get(b.id) + BRANCH_GAP_Y;
+    });
+
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    nodeRects.forEach((r) => {
+      minX = Math.min(minX, r.x);
+      minY = Math.min(minY, r.y);
+      maxX = Math.max(maxX, r.x + r.w);
+      maxY = Math.max(maxY, r.y + r.h);
+    });
+    layoutBounds = { minX: minX - 18, minY: minY - 18, maxX: maxX + 18, maxY: maxY + 18 };
+
+    // 4. Position elements & draw SVG Bézier curves
+    const q = searchQuery.trim().toLowerCase();
+    const matchedIds = new Set();
+    if (q) {
+      visible.forEach((n) => {
+        if (matchesSearch(n, q)) matchedIds.add(n.id);
+      });
+    }
+    const activeChain = selectedId ? getAncestors(selectedId) : null;
+
+    edgesSvg.setAttribute('width', String(Math.ceil(layoutBounds.maxX + 80)));
+    edgesSvg.setAttribute('height', String(Math.ceil(layoutBounds.maxY + 80)));
+    edgesSvg.innerHTML = '';
+
+    visible.forEach((node) => {
+      const r = nodeRects.get(node.id);
+      const el = elMap.get(node.id);
+      el.style.left = r.x + 'px';
+      el.style.top = r.y + 'px';
+
+      el.classList.toggle('selected', node.id === selectedId);
+      el.classList.toggle('match', matchedIds.has(node.id));
+      if (q && matchedIds.size > 0) {
+        el.classList.toggle('dim', !matchedIds.has(node.id));
+      } else {
+        el.classList.remove('dim');
+      }
+
+      const parent = parentById.get(node.id);
+      if (parent && nodeRects.has(parent.id)) {
+        const pr = nodeRects.get(parent.id);
+        const isLeft = node._side === 'left';
+        const x1 = isLeft ? pr.x : pr.x + pr.w;
+        const y1 = pr.y + pr.h / 2;
+        const x2 = isLeft ? r.x + r.w : r.x;
+        const y2 = r.y + r.h / 2;
+        const cx = (x1 + x2) / 2;
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', `M ${x1} ${y1} C ${cx} ${y1}, ${cx} ${y2}, ${x2} ${y2}`);
+        path.setAttribute('stroke', node._color);
+        let cls = 'edge-path';
+        if (activeChain && activeChain.has(node.id) && activeChain.has(parent.id)) cls += ' hl';
+        else if (q && matchedIds.size > 0 && !matchedIds.has(node.id)) cls += ' dim';
+        path.setAttribute('class', cls);
+        edgesSvg.appendChild(path);
+      }
+    });
+  }
+
+  function fitToView(targetRects = null, maxScale = 1.05) {
+    const cw = canvasView.clientWidth;
+    const ch = canvasView.clientHeight;
+    if (!cw || !ch) return;
+    const drawerPad = drawer.classList.contains('open') && cw > 960 ? 404 : 0;
+    const availW = Math.max(260, cw - drawerPad - 48);
+    const availH = Math.max(240, ch - 48);
+
+    let b = layoutBounds;
+    if (targetRects && targetRects.length) {
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      targetRects.forEach((r) => {
+        minX = Math.min(minX, r.x);
+        minY = Math.min(minY, r.y);
+        maxX = Math.max(maxX, r.x + r.w);
+        maxY = Math.max(maxY, r.y + r.h);
+      });
+      b = { minX, minY, maxX: maxX + 20, maxY: maxY + 20 };
+    }
+
+    const bw = Math.max(100, b.maxX - b.minX);
+    const bh = Math.max(100, b.maxY - b.minY);
+    const scale = Math.max(0.32, Math.min(maxScale, availW / bw, availH / bh));
+    viewState.scale = scale;
+    viewState.x = 24 + (availW - bw * scale) / 2 - b.minX * scale;
+    viewState.y = 24 + (availH - bh * scale) / 2 - b.minY * scale;
+    applyTransform();
+  }
+
+  function focusSubtree(branchId) {
+    const branch = nodeById.get(branchId);
+    if (!branch) return;
+    // Expand branch & its direct children so details are immediately visible
+    collapsed.delete(branchId);
+    if (branch.children) {
+      branch.children.forEach((c) => collapsed.delete(c.id));
+    }
+    renderMap();
+    const rects = [];
+    function collect(n) {
+      if (nodeRects.has(n.id)) rects.push(nodeRects.get(n.id));
+      if (n.children && !collapsed.has(n.id)) n.children.forEach(collect);
+    }
+    collect(branch);
+    selectNode(branchId, true);
+    fitToView(rects, 1.0);
+  }
+
+  function openDrawer(node) {
+    drawerPath.textContent = getPathTitles(node.id).join('  ›  ');
+    drawerTitle.textContent = node.title;
+    drawerBody.innerHTML = '';
+
+    const d = node.detail;
+    if (d && d.summary) {
+      const b1 = document.createElement('div');
+      b1.className = 'detail-block';
+      b1.innerHTML = `<h4>核心判断</h4><p></p>`;
+      b1.querySelector('p').textContent = d.summary;
+      drawerBody.appendChild(b1);
+    } else if (node.sub) {
+      const b1 = document.createElement('div');
+      b1.className = 'detail-block';
+      b1.innerHTML = `<h4>要点说明</h4><p></p>`;
+      b1.querySelector('p').textContent = node.sub;
+      drawerBody.appendChild(b1);
+    }
+
+    if (d && d.evidence && d.evidence.length) {
+      const b2 = document.createElement('div');
+      b2.className = 'detail-block warn';
+      b2.innerHTML = `<h4>现状事实与技术证据</h4><ul class="detail-list"></ul>`;
+      const ul = b2.querySelector('ul');
+      d.evidence.forEach((item) => {
+        const li = document.createElement('li');
+        li.innerHTML = item;
+        ul.appendChild(li);
+      });
+      drawerBody.appendChild(b2);
+    }
+
+    if (d && d.action) {
+      const b3 = document.createElement('div');
+      b3.className = 'detail-block ok';
+      b3.innerHTML = `<h4>解决思路与落地建议</h4><p></p>`;
+      b3.querySelector('p').innerHTML = d.action;
+      drawerBody.appendChild(b3);
+    }
+
+    if (node.children && node.children.length) {
+      const b4 = document.createElement('div');
+      b4.className = 'detail-block';
+      b4.innerHTML = `<h4>包含子项（点击快速定位）</h4><div class="child-pills"></div>`;
+      const wrap = b4.querySelector('.child-pills');
+      node.children.forEach((c) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'child-pill';
+        btn.textContent = c.title;
+        btn.onclick = () => {
+          collapsed.delete(node.id);
+          renderMap();
+          selectNode(c.id, true);
+          const r = nodeRects.get(c.id);
+          if (r) fitToView([r], 1.05);
+        };
+        wrap.appendChild(btn);
+      });
+      drawerBody.appendChild(b4);
+    }
+
+    drawer.classList.add('open');
+  }
+
+  function selectNode(id, skipRerender = false) {
+    selectedId = id;
+    const node = nodeById.get(id);
+    if (node) openDrawer(node);
+    if (!skipRerender) renderMap();
+  }
+
+  function renderOutline() {
+    outlineWrap.innerHTML = '';
+    const hero = document.createElement('div');
+    hero.className = 'outline-hero';
+    hero.innerHTML = `<h2>${TREE.title}</h2><p>${TREE.detail.summary}</p>`;
+    outlineWrap.appendChild(hero);
+
+    TREE.children.forEach((branch) => {
+      const sec = document.createElement('section');
+      sec.className = 'outline-branch';
+      sec.style.setProperty('--b-color', branch._color);
+      sec.innerHTML = `
+        <div class="outline-branch-head">
+          <h3>${branch.title}</h3>
+          <span>${branch.sub || ''}</span>
+        </div>
+        <div class="outline-cards"></div>
+      `;
+      const grid = sec.querySelector('.outline-cards');
+      (branch.children || []).forEach((item) => {
+        const card = document.createElement('article');
+        card.className = 'outline-card';
+        const tagHtml = item.tag ? `<span class="node-tag ${item.tagType || ''}">${item.tag}</span>` : '';
+        let html = `<div class="outline-card-head"><strong>${item.title}</strong>${tagHtml}</div>`;
+        if (item.detail?.summary) html += `<p>${item.detail.summary}</p>`;
+        else if (item.sub) html += `<p>${item.sub}</p>`;
+
+        if (item.detail?.evidence?.length) {
+          html += `<ul class="outline-sublist">${item.detail.evidence.map((e) => `<li>${e}</li>`).join('')}</ul>`;
+        } else if (item.children?.length) {
+          html += `<ul class="outline-sublist">${item.children.map((c) => `<li><strong>${c.title}</strong>：${c.sub || ''}</li>`).join('')}</ul>`;
+        }
+        if (item.detail?.action) {
+          html += `<p style="color:#7DD3FC"><strong>应对：</strong>${item.detail.action}</p>`;
+        }
+        card.innerHTML = html;
+        grid.appendChild(card);
+      });
+      outlineWrap.appendChild(sec);
+    });
+  }
+
+  function buildJumpPills() {
+    branchJumps.innerHTML = '';
+    TREE.children.forEach((b) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'jump-pill';
+      btn.style.setProperty('--dot', b._color);
+      btn.innerHTML = `<i></i><span></span>`;
+      btn.querySelector('span').textContent = b.title.replace(/（.*?）/g, '');
+      btn.onclick = () => {
+        if (outlineView.classList.contains('show')) switchView('map');
+        focusSubtree(b.id);
+      };
+      branchJumps.appendChild(btn);
+    });
+  }
+
+  function switchView(mode) {
+    const isMap = mode === 'map';
+    tabMap.classList.toggle('active', isMap);
+    tabMap.setAttribute('aria-selected', String(isMap));
+    tabOutline.classList.toggle('active', !isMap);
+    tabOutline.setAttribute('aria-selected', String(!isMap));
+    outlineView.classList.toggle('show', !isMap);
+    mapControls.style.visibility = isMap ? 'visible' : 'hidden';
+    if (isMap) {
+      requestAnimationFrame(() => fitToView());
+    }
+  }
+
+  // Pan & Zoom interactions
+  let dragging = false;
+  let dragStart = { x: 0, y: 0, vx: 0, vy: 0 };
+
+  canvasView.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.node') || e.target.closest('.drawer')) return;
+    dragging = true;
+    canvasView.classList.add('dragging');
+    dragStart = { x: e.clientX, y: e.clientY, vx: viewState.x, vy: viewState.y };
+    canvasView.setPointerCapture(e.pointerId);
+  });
+
+  canvasView.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    viewState.x = dragStart.vx + (e.clientX - dragStart.x);
+    viewState.y = dragStart.vy + (e.clientY - dragStart.y);
+    applyTransform();
+  });
+
+  const endDrag = () => {
+    dragging = false;
+    canvasView.classList.remove('dragging');
+  };
+  canvasView.addEventListener('pointerup', endDrag);
+  canvasView.addEventListener('pointercancel', endDrag);
+
+  canvasView.addEventListener('click', (e) => {
+    if (!e.target.closest('.node') && !e.target.closest('.drawer')) {
+      drawer.classList.remove('open');
+      selectedId = null;
+      renderMap();
+    }
+  });
+
+  function zoomAt(factor, clientX, clientY) {
+    const rect = canvasView.getBoundingClientRect();
+    const px = clientX - rect.left;
+    const py = clientY - rect.top;
+    const oldScale = viewState.scale;
+    const newScale = Math.max(0.3, Math.min(2.2, oldScale * factor));
+    const ratio = newScale / oldScale;
+    viewState.x = px - (px - viewState.x) * ratio;
+    viewState.y = py - (py - viewState.y) * ratio;
+    viewState.scale = newScale;
+    applyTransform();
+  }
+
+  canvasView.addEventListener('wheel', (e) => {
+    if (e.target.closest('.drawer')) return;
+    e.preventDefault();
+    const factor = e.deltaY < 0 ? 1.12 : 0.89;
+    zoomAt(factor, e.clientX, e.clientY);
+  }, { passive: false });
+
+  // Controls
+  document.getElementById('btn-zoom-in').onclick = () => {
+    const r = canvasView.getBoundingClientRect();
+    zoomAt(1.18, r.left + r.width / 2, r.top + r.height / 2);
+  };
+  document.getElementById('btn-zoom-out').onclick = () => {
+    const r = canvasView.getBoundingClientRect();
+    zoomAt(0.84, r.left + r.width / 2, r.top + r.height / 2);
+  };
+  document.getElementById('btn-fit').onclick = () => fitToView();
+
+  document.getElementById('btn-standard').onclick = () => {
+    collapsed.clear();
+    nodeById.forEach((n) => {
+      if (n._depth >= 2 && n.children && n.children.length) collapsed.add(n.id);
+    });
+    renderMap();
+    fitToView();
+  };
+
+  document.getElementById('btn-expand-all').onclick = () => {
+    collapsed.clear();
+    renderMap();
+    fitToView(null, 0.95);
+  };
+
+  document.getElementById('btn-collapse').onclick = () => {
+    collapsed.clear();
+    nodeById.forEach((n) => {
+      if (n._depth >= 1 && n.children && n.children.length) collapsed.add(n.id);
+    });
+    renderMap();
+    fitToView();
+  };
+
+  drawerClose.onclick = () => {
+    drawer.classList.remove('open');
+    selectedId = null;
+    renderMap();
+  };
+
+  tabMap.onclick = () => switchView('map');
+  tabOutline.onclick = () => switchView('outline');
+
+  const fullBtn = document.getElementById('btn-full');
+  if (!document.documentElement.requestFullscreen) fullBtn.hidden = true;
+  fullBtn.onclick = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.documentElement.requestFullscreen();
+    } catch (_) {}
+  };
+  document.addEventListener('fullscreenchange', () => {
+    fullBtn.textContent = document.fullscreenElement ? '退出全屏' : '全屏';
+    setTimeout(() => fitToView(), 120);
+  });
+
+  // Search: auto-expand matching branches
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value;
+    searchClear.classList.toggle('show', searchQuery.length > 0);
+    const q = searchQuery.trim().toLowerCase();
+    if (q) {
+      nodeById.forEach((n) => {
+        if (matchesSearch(n, q)) {
+          let p = parentById.get(n.id);
+          while (p) {
+            collapsed.delete(p.id);
+            p = parentById.get(p.id);
+          }
+        }
+      });
+    }
+    renderMap();
+    if (q) {
+      const hitRects = [];
+      nodeRects.forEach((r, id) => {
+        if (matchesSearch(nodeById.get(id), q)) hitRects.push(r);
+      });
+      if (hitRects.length) fitToView(hitRects, 1.05);
+    }
+  });
+  searchClear.onclick = () => {
+    searchInput.value = '';
+    searchQuery = '';
+    searchClear.classList.remove('show');
+    renderMap();
+    fitToView();
+  };
+
+  window.addEventListener('resize', () => {
+    if (!outlineView.classList.contains('show')) fitToView();
+  });
+
+  // Init
+  buildJumpPills();
+  renderOutline();
+  renderMap();
+  requestAnimationFrame(() => fitToView());
+})();
+</script>
+</body>
+</html>
